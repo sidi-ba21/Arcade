@@ -27,22 +27,22 @@ CC              =               g++
 
 CFLAGS  =       -std=c++20 -Wall -Wextra -Werror
 
-all:    $(NAME)
+all:	core graphicals
 
-$(NAME):        $(OBJ)
+core:	$(OBJ)
 	$(CC) -o $(NAME) $(OBJ) -ldl
-
-core:
 
 games:
 
 graphicals:
+	gcc test.c -shared -fPIC -o lib.so $(INC)
 
 clean:
 	$(RM) $(OBJ)
 
 fclean: clean
 	$(RM) $(NAME)
+	$(RM) lib.so
 
 re:	fclean all
 
