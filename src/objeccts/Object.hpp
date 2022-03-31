@@ -18,15 +18,18 @@ class Object : public IObject {
         float x, float y);
         ~Object() override = default;
 
-        std::string getPath() const;
-        unsigned char getSymbol() const;
-        Arcade::Color getColor() const;
-        std::pair<float, float> getPos() const;
+        std::string getPath() const {return this->_path;};
+        unsigned char getSymbol() const {return this->_symbol;};
+        Arcade::Color getColor() const {return this->_color;};
+        std::pair<float, float> getPos() const {return this->_objPos;};
 
-        std::string setPath() const;
-        unsigned char setSymbol() const;
-        Arcade::Color setColor() const;
-        std::pair<float, float> setPos() const;
+        std::string setPath(std::string newpath) {this->_path = newpath;};
+        unsigned char setSymbol(unsigned char newsymbol) {this->_symbol = newsymbol;};
+        Arcade::Color setColor(Arcade::Color newcol) {this->_color = newcol;};
+        void setPos(std::pair<float, float> pos) {
+            this->_objPos.first = pos.first;
+            this->_objPos.second = pos.second;
+        };
     protected:
     private:
     std::pair<float, float> _objPos;
@@ -34,7 +37,6 @@ class Object : public IObject {
     Arcade::Color _color;
     unsigned char _symbol;
 };
-
 }
 
 #endif /* !OBJECT_HPP_ */
