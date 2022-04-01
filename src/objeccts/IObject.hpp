@@ -20,9 +20,14 @@ class IObject {
 };
 
 enum Color {
-    WHITE,
     BLACK,
-    RED
+    RED,
+    GREEN,
+    YELLOW,
+    BLUE,
+    MAGENTA,
+    CYAN,
+    WHITE
 };
 
 }
