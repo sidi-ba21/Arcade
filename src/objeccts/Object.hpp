@@ -53,7 +53,6 @@ class Object : public IObject {
     Arcade::Color _color;
     unsigned char _symbol;
 };
-
 }
 
 #endif /* !OBJECT_HPP_ */
