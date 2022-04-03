@@ -17,8 +17,8 @@ Arcade::Ncurses::Ncurses()
 {
     initscr();
     keypad(stdscr, TRUE);
-    timeout(10);
     noecho();
+    timeout(10);
     curs_set(FALSE);
     start_color();
     init_pair(0, BLACK, 0);
@@ -43,14 +43,14 @@ void Arcade::Ncurses::drawObject(Arcade::Object *obj)
     tmp[0] = static_cast<char>(obj->getSymbol());
     tmp[1] = '\0';
     attron(COLOR_PAIR(obj->getColor()));
-    mvprintw(round(obj->getPos().second), round(obj->getPos().first), tmp);
+    mvwprintw(stdscr, round(obj->getPos().second), round(obj->getPos().first), tmp);
     attroff(COLOR_PAIR(obj->getColor()));
 }
 
 void Arcade::Ncurses::drawText(Arcade::Text *text)
 {
     attron(COLOR_PAIR(text->getColor()));
-    mvprintw(round(text->getPos().second), round(text->getPos().first), text->getText().c_str());
+    mvwprintw(stdscr, round(text->getPos().second), round(text->getPos().first), text->getText().c_str());
     attroff(COLOR_PAIR(text->getColor()));
 }
 void Arcade::Ncurses::clear()
@@ -64,7 +64,7 @@ void Arcade::Ncurses::update()
 
 Arcade::Button Arcade::Ncurses::getEvent()
 {
-
+    return Arcade::Button::ENTER;
 }
 
 int main(int ac, char **av)
@@ -80,20 +80,20 @@ int main(int ac, char **av)
         for (int x = 0; tmp[x] != '\0'; x++) {
             if (tmp[x] == '#')
                 obj.emplace_back(std::make_shared<Arcade::Object>(av[1], tmp[x], Arcade::Color::CYAN, (float)x, (float)y));
-            else if (tmp[x] == ' ')
-                obj.emplace_back(std::make_shared<Arcade::Object>(av[1], tmp[x], Arcade::Color::BLACK, (float)x, (float)y));
             else if (tmp[x] == '0')
                 obj.emplace_back(std::make_shared<Arcade::Object>(av[1], tmp[x], Arcade::Color::GREEN, (float)x, (float)y));
+            else if (tmp[x] == 'F')
+                obj.emplace_back(std::make_shared<Arcade::Object>(av[1], tmp[x], Arcade::Color::RED, (float)x, (float)y));
         }
         y++;
     }
-    fprintf(stderr, "%d\n", y);
-    while (1) {
-        for (auto const &temp : obj) {
+    for (auto const &temp : obj) {
             test.drawObject(temp.get());
-        }
-    //    test.update();
-    //    test.clear();
+    }
+    test.clear();
+    while (1) {
+        test.drawObject(obj.front().get());
+        test.update();
     }
     return (0);
 }
