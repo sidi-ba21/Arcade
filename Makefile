@@ -11,13 +11,14 @@ SRC_DIR =       src/
 
 LIB   	=	lib/
 
-CORE	=	core/
+CORE	=	src/core/
 
 GAMES	=	games/
 
 GRAPHICALS	=	graphicals/
 
-SRC             =       main.cpp              \
+SRC			=	$(CORE)main.cpp              \
+				$(CORE)Core.cpp				\
 
 OBJ             =       $(SRC:.cpp=.o)
 
@@ -27,15 +28,16 @@ CC              =               g++
 
 CFLAGS  =       -std=c++20 -Wall -Wextra -Werror
 
-all:	core graphicals
+all:	graphicals core
 
 core:	$(OBJ)
-	$(CC) -o $(NAME) $(OBJ) -ldl
+	$(CC) -o $(NAME) $(OBJ) -ldl -lstdc++fs
 
 games:
 
 graphicals:
-	gcc test.c -shared -fPIC -o lib.so $(INC)
+	g++ entrypoint.cpp -shared -fPIC -o lib.so
+	cp lib.so ./lib/
 
 clean:
 	$(RM) $(OBJ)
