@@ -13,9 +13,9 @@ namespace Arcade {
 class IGames {
     public:
         virtual ~IGames() = default;
-        virtual int getScore() = 0;
-        virtual void reset() = 0;
-        virtual void highScore() = 0;
+       // virtual int getScore() = 0;
+       // virtual void reset() = 0;
+       // virtual void highScore() = 0;
 };
 
 }
