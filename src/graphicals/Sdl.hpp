@@ -31,7 +31,7 @@ class SDL final : public AGraphic {
         void drawText(Arcade::Text *) override;
         void clear();
         void update();
-        Arcade::Button getEvent();
+        Arcade::Button getEvent(Arcade::Object *);
     protected:
     private:
     SDL_Window *m_window;

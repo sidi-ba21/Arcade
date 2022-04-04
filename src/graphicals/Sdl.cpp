@@ -79,10 +79,22 @@ void Arcade::SDL::update()
     SDL_UpdateWindowSurface(m_window);
 }
 
-Arcade::Button Arcade::SDL::getEvent()
+Arcade::Button Arcade::SDL::getEvent(Arcade::Object *player)
 {
+    std::pair<float, float> pos = player->getPos();
+
     while (SDL_PollEvent(&m_event) != 0) {
         if (m_event.type == SDL_QUIT)
             this->~SDL();
+        if (m_event.key.keysym.sym == SDLK_z || m_event.key.keysym.sym == SDLK_UP)
+            player->setPos(pos.first, pos.second - 1);
+        if (m_event.key.keysym.sym == SDLK_q || m_event.key.keysym.sym == SDLK_LEFT)
+            player->setPos(pos.first - 1, pos.second);
+        if (m_event.key.keysym.sym == SDLK_d || m_event.key.keysym.sym == SDLK_RIGHT)
+            player->setPos(pos.first + 1, pos.second);
+        if (m_event.key.keysym.sym == SDLK_s || m_event.key.keysym.sym == SDLK_DOWN)
+            player->setPos(pos.first, pos.second + 1);
+
+
     }
 }
