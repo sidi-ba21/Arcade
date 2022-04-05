@@ -11,17 +11,30 @@
 #include <fstream>
 #include <sstream>
 #include <memory>
+#include <map>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_audio.h>
+#include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 #include "../objeccts/Sound.hpp"
 #include "../objeccts/Object.hpp"
 #include "../objeccts/Text.hpp"
 
 namespace Arcade {
+
+std::map<Arcade::Color, SDL_Color> sdlColor {
+    {Arcade::Color::BLACK, {0, 0, 0, 0}},
+    {Arcade::Color::BLUE, {0, 0, 255, 0}},
+    {Arcade::Color::RED, {255, 0, 0, 0}},
+    {Arcade::Color::GREEN, {0, 255, 0, 0}},
+    {Arcade::Color::YELLOW, {255, 255, 0, 0}},
+    {Arcade::Color::MAGENTA, {255, 0, 255, 0}},
+    {Arcade::Color::CYAN, {0, 255, 255, 0}},
+    {Arcade::Color::WHITE, {255, 255, 255, 0}},
+};
 
 class SDL final : public AGraphic {
     public:
@@ -31,7 +44,7 @@ class SDL final : public AGraphic {
         void drawText(Arcade::Text *) override;
         void clear();
         void update();
-        Arcade::Button getEvent(Arcade::Object *);
+        Arcade::Button getEvent() override;
     protected:
     private:
     SDL_Window *m_window;

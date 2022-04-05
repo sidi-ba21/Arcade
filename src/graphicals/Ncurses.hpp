@@ -23,7 +23,7 @@ class Ncurses final : public AGraphic {
         void drawText(Arcade::Text *) override;
         void clear();
         void update();
-        Arcade::Button getEvent();
+        Arcade::Button getEvent() override;
     protected:
     private:
 };

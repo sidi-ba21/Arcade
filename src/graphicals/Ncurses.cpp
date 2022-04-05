@@ -43,7 +43,7 @@ void Arcade::Ncurses::drawObject(Arcade::Object *obj)
     tmp[0] = static_cast<char>(obj->getSymbol());
     tmp[1] = '\0';
     attron(COLOR_PAIR(obj->getColor()));
-    mvwprintw(stdscr, round(obj->getPos().second), round(obj->getPos().first), tmp);
+    mvwprintw(stdscr, round(obj->getPos().second), round(obj->getPos().first) * 2, tmp);
     attroff(COLOR_PAIR(obj->getColor()));
 }
 
