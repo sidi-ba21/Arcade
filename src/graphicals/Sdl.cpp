@@ -8,7 +8,7 @@
 #include "Sdl.hpp"
 
 static const int coef_w_obj = 13;
-static const int coef_h_obj = 20;
+static const int coef_h_obj = 16;
 Arcade::SDL::SDL()
 {
     SDL_Init(SDL_INIT_EVERYTHING);
@@ -100,13 +100,18 @@ int main(int ac, char **av)
     Arcade::SDL test;
     std::vector<std::shared_ptr<Arcade::Object>> obj;
     int y = 0;
+    int i = 0;
     if (!file.is_open())
         return 84;
     while (std::getline(file, tmp)) {
         for (int x = 0; tmp[x] != '\0'; x++) {
             if (tmp[x] == '#')
                 obj.emplace_back(std::make_shared<Arcade::Object>("assets/snake/wall.png", tmp[x], Arcade::Color::CYAN, (float)x, (float)y));
-            else if (tmp[x] == '0')
+            else if (tmp[x] == '0' && i == 0) {
+                obj.emplace_back(std::make_shared<Arcade::Object>("assets/snake/head_left.png", tmp[x], Arcade::Color::GREEN, (float)x, (float)y));
+                i = 1;
+            }
+            else if (tmp[x] == '0' && i != 0)
                 obj.emplace_back(std::make_shared<Arcade::Object>("assets/snake/snake_body.png", tmp[x], Arcade::Color::GREEN, (float)x, (float)y));
             else if (tmp[x] == 'F')
                 obj.emplace_back(std::make_shared<Arcade::Object>("assets/snake/snake_food_bonus.png", tmp[x], Arcade::Color::RED, (float)x, (float)y));
