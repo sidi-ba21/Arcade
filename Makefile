@@ -5,46 +5,45 @@
 ## arcade makefile
 ##
 
-NAME    =       arcade
+NAME	=	arcade
 
-SRC_DIR =       src/
-
-LIB   	=	lib/
+SRC_DIR	=	src/
 
 CORE	=	src/core/
 
-GAMES	=	games/
-
-GRAPHICALS	=	graphicals/
-
-SRC			=	$(CORE)main.cpp              \
+SRC		=	$(CORE)main.cpp				\
 				$(CORE)Core.cpp				\
 
-OBJ             =       $(SRC:.cpp=.o)
+OBJ		=	$(SRC:.cpp=.o)
 
-CPPFLAGS        =       -I include
+CPPFLAGS	=	-I include
 
-CC              =               g++
+CC		=	g++
 
-CFLAGS  =       -std=c++20 -Wall -Wextra -Werror
+CFLAGS	=	-std=c++20 -Wall -Wextra -Werror -fPIC `sdl-config --cflags --libs`
 
-all:	graphicals core
+LIBS	=	-lncurses -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -ldl -lstdc++fs -lSDL2 -lSDL2_image -lSDL2_ttf
+
+all:	games graphicals core
 
 core:	$(OBJ)
-	$(CC) -o $(NAME) $(OBJ) -ldl -lstdc++fs
+	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(LIBS)
 
 games:
+	$(MAKE) -C ./games
 
 graphicals:
-	g++ entrypoint.cpp -shared -fPIC -o lib.so
-	cp lib.so ./lib/
+	$(MAKE) -C ./lib
 
 clean:
 	$(RM) $(OBJ)
+	$(MAKE) -C ./games clean
+	$(MAKE) -C ./lib clean
 
 fclean: clean
 	$(RM) $(NAME)
-	$(RM) lib.so
+	$(MAKE) -C ./games fclean
+	$(MAKE) -C ./lib fclean
 
 re:	fclean all
 

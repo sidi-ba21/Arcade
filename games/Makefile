@@ -27,15 +27,17 @@ all: $(LIB_SNAKE) $(LIB_PACMAN)
 
 $(LIB_SNAKE): $(OBJ_SNAKE)
 	$(CC) $(CFLAGS) $(OBJ_SNAKE) -o $(LIB_SNAKE) $(LDFLAGS)
+	mv $(LIB_SNAKE) ../lib
 
 $(LIB_PACMAN): $(OBJ_PACMAN)
 	$(CC) $(CFLAGS) $(OBJ_PACMAN) -o $(LIB_PACMAN) $(LDFLAGS)
+	mv $(LIB_PACMAN) ../lib
 
 clean:
 	rm -f $(OBJ_SNAKE) $(OBJ_PACMAN)
 
 fclean:
-	rm -f $(LIB_SNAKE) $(LIB_PACMAN)
+	rm -f ../lib/$(LIB_SNAKE) ../lib/$(LIB_PACMAN)
 
 re: fclean all
 
