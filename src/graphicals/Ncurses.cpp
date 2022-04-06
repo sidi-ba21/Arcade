@@ -66,7 +66,7 @@ Arcade::Button Arcade::Ncurses::getEvent()
 {
     return Arcade::Button::ENTER;
 }
-
+/*
 int main(int ac, char **av)
 {
     std::ifstream file(av[1]);
@@ -96,4 +96,4 @@ int main(int ac, char **av)
         test.update();
     }
     return (0);
-}
+}*/
