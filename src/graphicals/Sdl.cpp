@@ -13,7 +13,7 @@ Arcade::SDL::SDL()
 {
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
-    m_font = TTF_OpenFont("assets/font.ttf", 15);
+    m_font = TTF_OpenFont("assets/font.ttf", 40);
     m_window = SDL_CreateWindow( "Arcade", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 900, 600, SDL_WINDOW_SHOWN );
     m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
 }
@@ -50,14 +50,13 @@ void Arcade::SDL::drawText(Arcade::Text *text)
     Arcade::sdlColor[text->getColor()]);
     SDL_Rect rect = {};
     int h, w;
-    int coef = 15.5;
 
     texture = SDL_CreateTextureFromSurface(m_renderer, temp);
     SDL_QueryTexture(texture, NULL, NULL, &w, &h);
-    rect.w = w * coef;
-    rect.h = h * coef;
-    rect.x = text->getPos().first * coef;
-    rect.y = text->getPos().second * coef;
+    rect.w = w;
+    rect.h = h;
+    rect.x = text->getPos().first;
+    rect.y = text->getPos().second;
     SDL_RenderCopy(m_renderer, texture, NULL, &rect);
     SDL_DestroyTexture(texture);
     SDL_FreeSurface(temp);
@@ -75,71 +74,40 @@ void Arcade::SDL::update()
 
 Arcade::Button Arcade::SDL::getEvent()
 {
-//   std::pair<float, float> pos = player->getPos();
+    SDL_Event event;
 
-    while (SDL_PollEvent(&m_event) != 0) {
-        if (m_event.type == SDL_QUIT)
+    while (SDL_PollEvent(&event) != 0) {
+        if (event.type == SDL_QUIT)
             return (ESCAPE);
-    /*    if (m_event.key.keysym.sym == SDLK_z || m_event.key.keysym.sym == SDLK_UP)
-            player->setPos(pos.first, pos.second - 1);
-        if (m_event.key.keysym.sym == SDLK_q || m_event.key.keysym.sym == SDLK_LEFT)
-            player->setPos(pos.first - 1, pos.second);
-        if (m_event.key.keysym.sym == SDLK_d || m_event.key.keysym.sym == SDLK_RIGHT)
-            player->setPos(pos.first + 1, pos.second);
-        if (m_event.key.keysym.sym == SDLK_s || m_event.key.keysym.sym == SDLK_DOWN)
-            player->setPos(pos.first, pos.second + 1);
-
-*/
+        if (event.key.keysym.sym == SDLK_z || event.key.keysym.sym == SDLK_UP)
+            return (Arcade::Button::UP);
+        if (event.key.keysym.sym == SDLK_q || event.key.keysym.sym == SDLK_LEFT)
+            return (Arcade::Button::LEFT);
+        if (event.key.keysym.sym == SDLK_d || event.key.keysym.sym == SDLK_RIGHT)
+            return (Arcade::Button::RIGHT);
+        if (event.key.keysym.sym == SDLK_s || event.key.keysym.sym == SDLK_DOWN)
+            return (Arcade::Button::DOWN);
     }
+    return (Arcade::Button::NOTHING);
 }
-
+/*
 int main(int ac, char **av)
 {
-    std::ifstream file(av[1]);
     std::string tmp;
     Arcade::SDL test;
-    std::vector<std::shared_ptr<Arcade::Object>> obj;
-    int y = 0;
-    int i = 0;
-    if (!file.is_open())
-        return 84;
-    while (std::getline(file, tmp)) {
-        for (int x = 0; tmp[x] != '\0'; x++) {
-            if (tmp[x] == '#')
-                obj.emplace_back(std::make_shared<Arcade::Object>("assets/snake/wall.png", tmp[x], Arcade::Color::CYAN, (float)x, (float)y));
-            else if (tmp[x] == '0' && i == 0) {
-                obj.emplace_back(std::make_shared<Arcade::Object>("assets/snake/head_left.png", tmp[x], Arcade::Color::GREEN, (float)x, (float)y));
-                i = 1;
-            }
-            else if (tmp[x] == '0' && i != 0)
-                obj.emplace_back(std::make_shared<Arcade::Object>("assets/snake/snake_body.png", tmp[x], Arcade::Color::GREEN, (float)x, (float)y));
-            else if (tmp[x] == 'F')
-                obj.emplace_back(std::make_shared<Arcade::Object>("assets/snake/snake_food_bonus.png", tmp[x], Arcade::Color::RED, (float)x, (float)y));
-            else if (tmp[x] == ' ')
-                obj.emplace_back(std::make_shared<Arcade::Object>("assets/snake/SOL.png", tmp[x], Arcade::Color::BLACK, (float)x, (float)y));
-        }
-        y++;
-    }
-    std::vector<std::shared_ptr<Arcade::Text>> text;
-    //text.emplace_back(std::make_shared<Arcade::Text>("SCORE"), Arcade::Color::WHITE, 800.f, 250.f);
-    //text.emplace_back(std::make_shared<Arcade::Text>("0"), Arcade::Color::WHITE, 830.f, 280.f);
+    Arcade::Snake snake;
     while (1) {
-        auto buff = obj;
-        auto txt = text;
         auto input = test.getEvent();
         if (input == Arcade::Button::ESCAPE) {
             test.clear();
             break;
         }
-        if (!buff.empty()) {
-            for (auto &temp : buff) {
-                test.draw(temp);
-            }
-        //    for (auto &temp2 : text) {
-        //        test.draw(temp2);
-        //    }
-            test.update();
-        }
+        test.clear();
+        auto buff = snake.play(input);
+        for (auto &tmp : buff)
+            test.draw(tmp);
+        test.update();
     }
     return (0);
 }
+*/

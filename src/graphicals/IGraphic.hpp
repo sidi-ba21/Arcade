@@ -18,15 +18,6 @@
 
 namespace Arcade {
 
-    enum Button {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT,
-        ENTER,
-        ESCAPE
-    };
-
 class IGraphic {
     public:
         virtual ~IGraphic() = default;
