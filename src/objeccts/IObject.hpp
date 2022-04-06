@@ -30,6 +30,15 @@ enum Color {
     WHITE
 };
 
+enum Button {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT,
+        ENTER,
+        ESCAPE,
+        NOTHING
+    };
 }
 
 #endif /* !IOBJECT_HPP_ */
