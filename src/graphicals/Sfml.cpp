@@ -6,6 +6,9 @@
 */
 
 #include "Sfml.hpp"
+#include "unistd.h"
+#include <thread>
+#include <iostream>
 
 static const int coef_w_obj = 13;
 static const int coef_h_obj = 16;

@@ -31,10 +31,6 @@ LIB_SDL		=	arcade_sdl2.so
 
 LIB_SFML		=	arcade_sfml.so
 
-#CFLAGS	=	-std=c++20 -Wall -Wextra -Werror -fPIC `sdl2-config --cflags --libs`
-
-LIBS	=	-lncurses -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -ldl -lstdc++fs -lSDL2 -lSDL2_image -lSDL2_ttf 
-
 all: $(LIB_NCURSES) $(LIB_SDL) $(LIB_SFML)
 
 $(LIB_NCURSES): $(OBJ_NCURSES)
@@ -42,7 +38,7 @@ $(LIB_NCURSES): $(OBJ_NCURSES)
 	mv $(LIB_NCURSES) $(LIB_DIR)
 
 $(LIB_SDL): $(OBJ_SDL)
-	$(CC) $(CFLAGS) $(OBJ_SDL) -o $(LIB_SDL) $(LDFLAGS) $(LIBS)
+	$(CC) $(CFLAGS) $(OBJ_SDL) -o $(LIB_SDL) $(LDFLAGS)
 	mv $(LIB_SDL) $(LIB_DIR)
 
 $(LIB_SFML): $(OBJ_SFML)

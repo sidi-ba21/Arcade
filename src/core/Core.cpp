@@ -12,6 +12,10 @@
 #include <experimental/filesystem>
 #include <string>
 #include "../objects/Object.hpp"
+#include "../objects/IObject.hpp"
+#include "../objects/Sound.hpp"
+#include "../objects/Sprite.hpp"
+#include "../objects/Text.hpp"
 
 void Arcade::Core::load_file()
 {
@@ -39,20 +43,15 @@ void Arcade::Core::core_loop()
     auto sdl = _display.getInstance();
     auto snake = _game.getInstance();
     while (1) {
-        std::cout << "pass1" << std::endl;
         Arcade::Button input = sdl->getEvent();
-        std::cout << "pass2" << std::endl;
         if (input == Arcade::Button::ESCAPE) {
             sdl->clear();
             break;
         }
-        std::cout << "pass3" << std::endl;
         sdl->clear();
         auto buff = snake->play(input);
-        std::cout << "pass4" << std::endl;
         for (auto &tmp : buff)
             sdl->draw(tmp);
-        std::cout << "pass5" << std::endl;
         sdl->update();
     }
 }

@@ -7,6 +7,7 @@
 
 #include "Ncurses.hpp"
 #include <cmath>
+#include <unistd.h>
 
 Arcade::Ncurses::Ncurses()
 {
@@ -55,6 +56,7 @@ void Arcade::Ncurses::clear()
 void Arcade::Ncurses::update()
 {
     wrefresh(stdscr);
+    usleep(60000);
 }
 
 Arcade::Button Arcade::Ncurses::getEvent()
@@ -69,25 +71,3 @@ Arcade::Button Arcade::Ncurses::getEvent()
     }
     return button;
 }
-/*
-int main(int ac, char **av)
-{
-    std::string tmp;
-    Arcade::Ncurses test;
-    Arcade::Snake snake;
-    test.clear();
-    while (1) {
-        auto input = test.getEvent();
-        if (input == Arcade::Button::ESCAPE) {
-            test.clear();
-            break;
-        }
-        auto buff = snake.play(input);
-        for (auto &tmp : buff)
-            test.draw(tmp);
-        test.update();
-        usleep(60000);
-    }
-    return (0);
-}
-*/

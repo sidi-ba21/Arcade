@@ -32,9 +32,10 @@ namespace Arcade {
             }
             void load_sym() {
                 _sym = dlsym(_hdnl, "entryPoint");
+                //std::cout << "pass" << std::endl;
                 if (!_sym)
                     throw DLLoaderError(dlerror());
-                *(void **) (&_instance) = _sym;
+                _instance = reinterpret_cast<T *(*)()>(_sym)();;
             }
             T *getInstance() const {
                 return _instance;

@@ -10,9 +10,9 @@ NAME	=	arcade
 SRC_CORE	=	Core.cpp	\
 				main.cpp
 
-CPPFLAGS	= -fPIC -std=c++20
+CFLAGS	=	-std=c++20 -Wall -Wextra -Werror -fPIC `sdl2-config --cflags --libs`
 
-LDFLAGS		=	-lstdc++fs -ldl
+LIBS	=	-lncurses -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -ldl -lstdc++fs -lSDL2 -lSDL2_image -lSDL2_ttf 
 
 CC			=	g++
 
@@ -21,7 +21,7 @@ OBJ_CORE	=	$(SRC_CORE:.cpp=.o)
 INC			=	../include
 
 all: $(OBJ_CORE)
-	$(CC) $(CFLAGS) $(OBJ_CORE) -o $(NAME) $(LDFLAGS) -g3
+	$(CC) $(CFLAGS) $(OBJ_CORE) -o $(NAME) $(LIBS)
 	mv $(NAME)	../../
 
 clean:
