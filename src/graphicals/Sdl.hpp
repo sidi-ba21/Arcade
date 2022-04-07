@@ -47,14 +47,14 @@ namespace Arcade {
             Arcade::Button getEvent() override;
         protected:
         private:
-        SDL_Window *_window;
-        SDL_Renderer *_renderer;
-        SDL_Event _event;
-        SDL_Surface *_surface;
-        TTF_Font *_font;
+            SDL_Window *_window;
+            SDL_Renderer *_renderer;
+            SDL_Event _event;
+            SDL_Surface *_surface;
+            TTF_Font *_font;
     };
 
-    extern "C" Sdl *entry_point() {
+    extern "C" Sdl *entryPoint() {
         return new Sdl;
     };
 

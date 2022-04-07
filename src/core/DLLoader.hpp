@@ -21,38 +21,34 @@ namespace Arcade {
             DLLoader(std::string &filename) {
                 Dynamic_loader(filename);
             }
-            ~DLLoader() {dlclose(_hdnl); }
-
+            ~DLLoader() {
+                Dynamic_close();
+            }
             void Dynamic_loader(std::string &filename) { 
-                _hdnl = dlopen(filename.c_str(), RTLD_LOCAL | RTLD_LAZY);
+                _hdnl = dlopen(filename.c_str(), RTLD_LOCAL | RTLD_NOW);
                 if (!_hdnl)
-                    throw DLLoaderError("bad argument dlopen");
-
+                    throw DLLoaderError(dlerror());
                 load_sym();
             }
             void load_sym() {
                 _sym = dlsym(_hdnl, "entryPoint");
                 if (!_sym)
-                    throw DLLoaderError("bad dlsym");
+                    throw DLLoaderError(dlerror());
                 *(void **) (&_instance) = _sym;
-                if (dlerror() != NULL)
-                    throw DLLoaderError("dlerror");
             }
             T *getInstance() const {
                 return _instance;
             }
             void Dynamic_close() {
-                if (dlclose(_hdnl) != 0)
-                    throw DLLoaderError("bad argument dlclose");
-                if (dlerror() != NULL)
-                    throw DLLoaderError("dlerror");
+                if (_hdnl && dlclose(_hdnl) != 0)
+                    throw DLLoaderError(dlerror());
             }
             void *gethandle() const { return _hdnl; }
         protected:
         private:
-            void *_hdnl;
-            void *_sym;
-            T *_instance;
+            void *_hdnl{nullptr};
+            void *_sym{nullptr};
+            T *_instance{nullptr};
     };
 }
 

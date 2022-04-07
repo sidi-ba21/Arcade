@@ -28,7 +28,7 @@ namespace Arcade {
         private:
     };
     
-    extern "C" Ncurses *entry_point() {
+    extern "C" Ncurses *entryPoint() {
         return new Ncurses;
     };
 

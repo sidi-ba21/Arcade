@@ -20,7 +20,7 @@ int main(int ac, char **av)
 {
     try {
         basic_error(ac, av);
-        std::string str = std::string("./lib.so");
+        std::string str = std::string(av[1]);
         Arcade::Core test(str);
     } catch (std::exception const &e) {
         std::cout << e.what() << std::endl;
