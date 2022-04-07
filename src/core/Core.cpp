@@ -24,19 +24,37 @@ void Arcade::Core::load_file()
 
 Arcade::Core::Core(std::string &pathname) : _path(pathname)
 {
-    Arcade::Object test();
+    //std::string str = std::string("./arcade_sdl2.so");
     load_file();
+    std::cout << _path << std::endl;
+    std::cout << _lib[2] << std::endl;
     _display.Dynamic_loader(_path);
-//    _display.getInstance()->print(_path);
+    _game.Dynamic_loader(_lib[2]);
+    core_loop();
 }
 
 void Arcade::Core::core_loop()
 {
-    while (1)
-    {
-        
+    std::string tmp;
+    auto sdl = _display.getInstance();
+    auto snake = _game.getInstance();
+    while (1) {
+        std::cout << "pass1" << std::endl;
+        Arcade::Button input = sdl->getEvent();
+        std::cout << "pass2" << std::endl;
+        if (input == Arcade::Button::ESCAPE) {
+            sdl->clear();
+            break;
+        }
+        std::cout << "pass3" << std::endl;
+        sdl->clear();
+        auto buff = snake->play(input);
+        std::cout << "pass4" << std::endl;
+        for (auto &tmp : buff)
+            sdl->draw(tmp);
+        std::cout << "pass5" << std::endl;
+        sdl->update();
     }
-
 }
 
 void Arcade::Core::menu()

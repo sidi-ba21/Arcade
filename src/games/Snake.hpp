@@ -44,8 +44,8 @@ namespace Arcade {
             std::vector<std::shared_ptr<Arcade::Text>> _text;
             std::pair<std::size_t, std::size_t> map_size;
     };
-
-    extern "C" Snake *entry_point() {
+    
+    extern "C" Snake *entryPoint() {
         return new Snake;
     };
 

@@ -66,7 +66,7 @@ namespace Arcade {
             sf::Event _event{};
     };
 
-    extern "C" Sfml *entry_point() {
+    extern "C" Sfml *entryPoint() {
         return new Sfml;
     };
 }
