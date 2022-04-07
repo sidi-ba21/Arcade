@@ -8,7 +8,7 @@
 #include "DLLoader.hpp"
 #include "Error.hpp"
 #include "../games/IGames.hpp"
-#include "../graphicals/IGraphics.hpp"
+#include "../graphicals/IGraphic.hpp"
 #include <vector>
 
 #ifndef CORE_HPP_
@@ -33,8 +33,8 @@ namespace Arcade
         private:
             std::string _path;
             std::vector<std::string> _lib;
-            //DLLoader<Arcade::IGames> _game;
-            DLLoader<Arcade::IGraphics> _display;
+            DLLoader<Arcade::IGames> _game;
+            DLLoader<Arcade::IGraphic> _display;
     };
 }
 

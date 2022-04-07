@@ -27,7 +27,7 @@ Arcade::Core::Core(std::string &pathname) : _path(pathname)
     Arcade::Object test();
     load_file();
     _display.Dynamic_loader(_path);
-    _display.getInstance()->print(_path);
+//    _display.getInstance()->print(_path);
 }
 
 void Arcade::Core::core_loop()

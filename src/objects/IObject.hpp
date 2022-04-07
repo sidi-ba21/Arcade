@@ -37,6 +37,11 @@ enum Button {
         RIGHT,
         ENTER,
         ESCAPE,
+        RESTART,
+        PREV_GAME,
+        NEXT_GAME,
+        PREV_LIB,
+        NEXT_LIB,
         NOTHING
     };
 }

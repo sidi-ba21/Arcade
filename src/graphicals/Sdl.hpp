@@ -7,11 +7,6 @@
 
 #include "IGraphic.hpp"
 #include <iostream>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <memory>
-#include <map>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_render.h>
@@ -35,6 +30,23 @@ namespace Arcade {
         {Arcade::Color::CYAN, {0, 255, 255, 0}},
         {Arcade::Color::WHITE, {255, 255, 255, 0}},
     };
+    std::map<SDL_Keycode, Arcade::Button> Key_list = {
+		{SDLK_ESCAPE, Button::ESCAPE},
+		{SDLK_KP_ENTER, Button::ENTER},
+		{SDLK_r, Button::RESTART},
+		{SDLK_z, Button::UP},
+		{SDLK_q, Button::LEFT},
+		{SDLK_s, Button::DOWN},
+		{SDLK_d, Button::RIGHT},
+		{SDLK_F2, Button::PREV_GAME},
+		{SDLK_F3, Button::NEXT_GAME},
+		{SDLK_F4, Button::PREV_LIB},
+		{SDLK_F5, Button::NEXT_LIB},
+		{SDLK_LEFT, Button::LEFT},
+		{SDLK_RIGHT, Button::RIGHT},
+		{SDLK_UP, Button::UP},
+		{SDLK_DOWN, Button::DOWN},
+	};
 
     class Sdl final : public AGraphic {
         public:

@@ -16,6 +16,7 @@
 #include "../objects/Sound.hpp"
 #include "../core/Error.hpp"
 #include <memory>
+#include <map>
 
 namespace Arcade {
 

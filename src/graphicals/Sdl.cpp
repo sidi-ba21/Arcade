@@ -7,14 +7,16 @@
 
 #include "Sdl.hpp"
 
-static const int coef_w_obj = 13;
-static const int coef_h_obj = 16;
+static const int coef_w_obj = 15;
+static const int coef_h_obj = 20;
 
 Arcade::Sdl::Sdl()
 {
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
     _font = TTF_OpenFont("assets/font.ttf", 40);
+    if (!_font)
+        throw GraphicsError("Failed to load font");
     _window = SDL_CreateWindow( "Arcade", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1920, 1080, SDL_WINDOW_SHOWN );
     _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 }
@@ -79,15 +81,11 @@ Arcade::Button Arcade::Sdl::getEvent()
 
     while (SDL_PollEvent(&event) != 0) {
         if (event.type == SDL_QUIT)
-            return (ESCAPE);
-        if (event.key.keysym.sym == SDLK_z || event.key.keysym.sym == SDLK_UP)
-            return (Arcade::Button::UP);
-        if (event.key.keysym.sym == SDLK_q || event.key.keysym.sym == SDLK_LEFT)
-            return (Arcade::Button::LEFT);
-        if (event.key.keysym.sym == SDLK_d || event.key.keysym.sym == SDLK_RIGHT)
-            return (Arcade::Button::RIGHT);
-        if (event.key.keysym.sym == SDLK_s || event.key.keysym.sym == SDLK_DOWN)
-            return (Arcade::Button::DOWN);
+            return (Button::ESCAPE);
+        if (event.type == SDL_KEYDOWN) {
+            if (Key_list.find(event.key.keysym.sym) != Key_list.end())
+                return Key_list[event.key.keysym.sym];
+        }
     }
     return (Arcade::Button::NOTHING);
 }
@@ -95,7 +93,7 @@ Arcade::Button Arcade::Sdl::getEvent()
 int main(int ac, char **av)
 {
     std::string tmp;
-    Arcade::SDL test;
+    Arcade::Sdl test;
     Arcade::Snake snake;
     while (1) {
         auto input = test.getEvent();

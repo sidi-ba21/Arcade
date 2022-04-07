@@ -6,19 +6,14 @@
 */
 
 #include "Ncurses.hpp"
-#include <ncurses.h>
 #include <cmath>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <memory>
 
 Arcade::Ncurses::Ncurses()
 {
     initscr();
     keypad(stdscr, TRUE);
     noecho();
-    timeout(10);
+    nodelay(stdscr, TRUE);
     curs_set(FALSE);
     start_color();
     init_pair(0, BLACK, 0);
@@ -55,45 +50,44 @@ void Arcade::Ncurses::drawText(Arcade::Text *text)
 }
 void Arcade::Ncurses::clear()
 {
-    wrefresh(stdscr);
+    wclear(stdscr);
 }
 void Arcade::Ncurses::update()
 {
-    wclear(stdscr);
+    wrefresh(stdscr);
 }
 
 Arcade::Button Arcade::Ncurses::getEvent()
 {
-    return Arcade::Button::ENTER;
+    int event = getch();
+    Arcade::Button button = NOTHING;
+
+    while (event != ERR) {
+        if (Key_list.find(event) != Key_list.end())
+            button = Key_list[event];
+        event = getch();
+    }
+    return button;
 }
 /*
 int main(int ac, char **av)
 {
-    std::ifstream file(av[1]);
     std::string tmp;
     Arcade::Ncurses test;
-    std::vector<std::shared_ptr<Arcade::Object>> obj;
-    int y = 0;
-    if (!file.is_open())
-        return 84;
-    while (std::getline(file, tmp)) {
-        for (int x = 0; tmp[x] != '\0'; x++) {
-            if (tmp[x] == '#')
-                obj.emplace_back(std::make_shared<Arcade::Object>(av[1], tmp[x], Arcade::Color::CYAN, (float)x, (float)y));
-            else if (tmp[x] == '0')
-                obj.emplace_back(std::make_shared<Arcade::Object>(av[1], tmp[x], Arcade::Color::GREEN, (float)x, (float)y));
-            else if (tmp[x] == 'F')
-                obj.emplace_back(std::make_shared<Arcade::Object>(av[1], tmp[x], Arcade::Color::RED, (float)x, (float)y));
-        }
-        y++;
-    }
-    for (auto const &temp : obj) {
-            test.drawObject(temp.get());
-    }
+    Arcade::Snake snake;
     test.clear();
     while (1) {
-        test.drawObject(obj.front().get());
+        auto input = test.getEvent();
+        if (input == Arcade::Button::ESCAPE) {
+            test.clear();
+            break;
+        }
+        auto buff = snake.play(input);
+        for (auto &tmp : buff)
+            test.draw(tmp);
         test.update();
+        usleep(60000);
     }
     return (0);
-}*/
+}
+*/
