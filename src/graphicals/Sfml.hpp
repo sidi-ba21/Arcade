@@ -54,6 +54,10 @@ namespace Arcade {
             sf::SoundBuffer _sound{};
             sf::Event _event{};
     };
+
+    extern "C" Sfml *entry_point() {
+        return new Sfml;
+    };
 }
 
 #endif /* !SFML_HPP_ */

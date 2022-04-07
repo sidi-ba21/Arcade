@@ -15,22 +15,22 @@
 
 namespace Arcade {
 
-class Ncurses final : public AGraphic {
-    public:
-        Ncurses();
-        ~Ncurses();
-        void drawObject(Arcade::Object *) override;
-        void drawText(Arcade::Text *) override;
-        void clear();
-        void update();
-        Arcade::Button getEvent() override;
-    protected:
-    private:
-};
-
-extern "C" Ncurses *entry_point() {
-    return new Ncurses;
-};
+    class Ncurses final : public AGraphic {
+        public:
+            Ncurses();
+            ~Ncurses();
+            void drawObject(Arcade::Object *) override;
+            void drawText(Arcade::Text *) override;
+            void clear();
+            void update();
+            Arcade::Button getEvent() override;
+        protected:
+        private:
+    };
+    
+    extern "C" Ncurses *entry_point() {
+        return new Ncurses;
+    };
 
 }
 

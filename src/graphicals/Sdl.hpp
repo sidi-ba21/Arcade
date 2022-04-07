@@ -25,37 +25,37 @@
 
 namespace Arcade {
 
-std::map<Arcade::Color, SDL_Color> sdlColor {
-    {Arcade::Color::BLACK, {0, 0, 0, 0}},
-    {Arcade::Color::BLUE, {0, 0, 255, 0}},
-    {Arcade::Color::RED, {255, 0, 0, 0}},
-    {Arcade::Color::GREEN, {0, 255, 0, 0}},
-    {Arcade::Color::YELLOW, {255, 255, 0, 0}},
-    {Arcade::Color::MAGENTA, {255, 0, 255, 0}},
-    {Arcade::Color::CYAN, {0, 255, 255, 0}},
-    {Arcade::Color::WHITE, {255, 255, 255, 0}},
-};
+    std::map<Arcade::Color, SDL_Color> sdlColor {
+        {Arcade::Color::BLACK, {0, 0, 0, 0}},
+        {Arcade::Color::BLUE, {0, 0, 255, 0}},
+        {Arcade::Color::RED, {255, 0, 0, 0}},
+        {Arcade::Color::GREEN, {0, 255, 0, 0}},
+        {Arcade::Color::YELLOW, {255, 255, 0, 0}},
+        {Arcade::Color::MAGENTA, {255, 0, 255, 0}},
+        {Arcade::Color::CYAN, {0, 255, 255, 0}},
+        {Arcade::Color::WHITE, {255, 255, 255, 0}},
+    };
 
-class SDL final : public AGraphic {
-    public:
-        SDL();
-        ~SDL();
-        void drawObject(Arcade::Object *) override;
-        void drawText(Arcade::Text *) override;
-        void clear();
-        void update();
-        Arcade::Button getEvent() override;
-    protected:
-    private:
-    SDL_Window *m_window;
-    SDL_Renderer *m_renderer;
-    SDL_Event m_event;
-    SDL_Surface *m_surface;
-    TTF_Font *m_font;
-};
+    class Sdl final : public AGraphic {
+        public:
+            Sdl();
+            ~Sdl();
+            void drawObject(Arcade::Object *) override;
+            void drawText(Arcade::Text *) override;
+            void clear();
+            void update();
+            Arcade::Button getEvent() override;
+        protected:
+        private:
+        SDL_Window *_window;
+        SDL_Renderer *_renderer;
+        SDL_Event _event;
+        SDL_Surface *_surface;
+        TTF_Font *_font;
+    };
 
-extern "C" SDL *entry_point() {
-    return new SDL;
-};
+    extern "C" Sdl *entry_point() {
+        return new Sdl;
+    };
 
 }

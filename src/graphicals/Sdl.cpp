@@ -10,70 +10,70 @@
 static const int coef_w_obj = 13;
 static const int coef_h_obj = 16;
 
-Arcade::SDL::SDL()
+Arcade::Sdl::Sdl()
 {
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
-    m_font = TTF_OpenFont("assets/font.ttf", 40);
-    m_window = SDL_CreateWindow( "Arcade", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 900, 600, SDL_WINDOW_SHOWN );
-    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+    _font = TTF_OpenFont("assets/font.ttf", 40);
+    _window = SDL_CreateWindow( "Arcade", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1920, 1080, SDL_WINDOW_SHOWN );
+    _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 }
 
-Arcade::SDL::~SDL()
+Arcade::Sdl::~Sdl()
 {
-    SDL_DestroyRenderer(m_renderer);
-    SDL_DestroyWindow(m_window);
-    TTF_CloseFont(m_font);
+    SDL_DestroyRenderer(_renderer);
+    SDL_DestroyWindow(_window);
+    TTF_CloseFont(_font);
     IMG_Quit();
     TTF_Quit();
  //   Mix_CloseAudio();
     SDL_Quit();
 }
 
-void Arcade::SDL::drawObject(Arcade::Object *obj)
+void Arcade::Sdl::drawObject(Arcade::Object *obj)
 {
     SDL_Surface *surface = IMG_Load(obj->getPath().c_str());
-    SDL_Texture *temp = SDL_CreateTextureFromSurface(m_renderer, surface);
+    SDL_Texture *temp = SDL_CreateTextureFromSurface(_renderer, surface);
     SDL_Rect rect {};
     int h, w;
     rect.w = 1 * coef_w_obj;
     rect.h = 1 * coef_h_obj;
     rect.x = obj->getPos().first * coef_w_obj;
     rect.y = obj->getPos().second * coef_h_obj;
-    SDL_RenderCopy(m_renderer, temp, NULL, &rect);
+    SDL_RenderCopy(_renderer, temp, NULL, &rect);
     SDL_DestroyTexture(temp);
 }
 
-void Arcade::SDL::drawText(Arcade::Text *text)
+void Arcade::Sdl::drawText(Arcade::Text *text)
 {
     SDL_Texture *texture {};
-    SDL_Surface *temp = TTF_RenderText_Solid(m_font, text->getText().c_str(),
+    SDL_Surface *temp = TTF_RenderText_Solid(_font, text->getText().c_str(),
     Arcade::sdlColor[text->getColor()]);
     SDL_Rect rect = {};
     int h, w;
 
-    texture = SDL_CreateTextureFromSurface(m_renderer, temp);
+    texture = SDL_CreateTextureFromSurface(_renderer, temp);
     SDL_QueryTexture(texture, NULL, NULL, &w, &h);
     rect.w = w;
     rect.h = h;
     rect.x = text->getPos().first;
     rect.y = text->getPos().second;
-    SDL_RenderCopy(m_renderer, texture, NULL, &rect);
+    SDL_RenderCopy(_renderer, texture, NULL, &rect);
     SDL_DestroyTexture(texture);
     SDL_FreeSurface(temp);
 }
 
-void Arcade::SDL::clear()
+void Arcade::Sdl::clear()
 {
-    SDL_RenderClear(m_renderer);
+    SDL_RenderClear(_renderer);
 }
 
-void Arcade::SDL::update()
+void Arcade::Sdl::update()
 {
-    SDL_RenderPresent(m_renderer);
+    SDL_RenderPresent(_renderer);
 }
 
-Arcade::Button Arcade::SDL::getEvent()
+Arcade::Button Arcade::Sdl::getEvent()
 {
     SDL_Event event;
 
