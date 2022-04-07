@@ -27,6 +27,7 @@ namespace Arcade {
                 _hdnl = dlopen(filename.c_str(), RTLD_LOCAL | RTLD_LAZY);
                 if (!_hdnl)
                     throw DLLoaderError("bad argument dlopen");
+
                 load_sym();
             }
             void load_sym() {
@@ -34,13 +35,17 @@ namespace Arcade {
                 if (!_sym)
                     throw DLLoaderError("bad dlsym");
                 *(void **) (&_instance) = _sym;
+                if (dlerror() != NULL)
+                    throw DLLoaderError("dlerror");
             }
             T *getInstance() const {
                 return _instance;
             }
             void Dynamic_close() {
                 if (dlclose(_hdnl) != 0)
-                    throw DLLoaderError("bad argument dlclose");  
+                    throw DLLoaderError("bad argument dlclose");
+                if (dlerror() != NULL)
+                    throw DLLoaderError("dlerror");
             }
             void *gethandle() const { return _hdnl; }
         protected:

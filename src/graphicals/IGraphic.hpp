@@ -10,10 +10,11 @@
 
 #pragma once
 
-#include "../objeccts/IObject.hpp"
-#include "../objeccts/Object.hpp"
-#include "../objeccts/Text.hpp"
-#include "../objeccts/Sound.hpp"
+#include "../objects/IObject.hpp"
+#include "../objects/Object.hpp"
+#include "../objects/Text.hpp"
+#include "../objects/Sound.hpp"
+#include "../core/Error.hpp"
 #include <memory>
 
 namespace Arcade {

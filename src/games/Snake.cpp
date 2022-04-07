@@ -191,4 +191,5 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::allObj()
 
 bool Arcade::Snake::endGame()
 {
+    return true;
 }

@@ -5,11 +5,11 @@
 ## Makefile
 ##
 
-SRC_NCURSES	=	../src/graphicals/Ncurses.cpp
+SRC_NCURSES	=	Ncurses.cpp
 
-SRC_SDL		=	../src/graphicals/Sdl.cpp
+SRC_SDL		=	Sdl.cpp
 
-SRC_SFML	=	../src/graphicals/Sfml.cpp
+SRC_SFML	=	Sfml.cpp
 
 CPPFLAGS	= -fPIC -std=c++20
 
@@ -23,6 +23,8 @@ OBJ_SFML	=	$(SRC_SFML:.cpp=.o)
 
 INC			=	../include
 
+LIB_DIR		=	../../lib/
+
 LIB_NCURSES	=	arcade_ncurses.so
 
 LIB_SDL		=	arcade_sdl2.so
@@ -33,18 +35,25 @@ all: $(LIB_NCURSES) $(LIB_SDL) $(LIB_SFML)
 
 $(LIB_NCURSES): $(OBJ_NCURSES)
 	$(CC) $(CFLAGS) $(OBJ_NCURSES) -o $(LIB_NCURSES) $(LDFLAGS)
+	mv $(LIB_NCURSES) $(LIB_DIR)
 
 $(LIB_SDL): $(OBJ_SDL)
 	$(CC) $(CFLAGS) $(OBJ_SDL) -o $(LIB_SDL) $(LDFLAGS)
+	mv $(LIB_SDL) $(LIB_DIR)
 
 $(LIB_SFML): $(OBJ_SFML)
 	$(CC) $(CFLAGS) $(OBJ_SFML) -o $(LIB_SFML) $(LDFLAGS)
+	mv $(LIB_SFML) $(LIB_DIR)
 
 clean:
-	rm -f $(OBJ_NCURSES) $(OBJ_SDL) $(OBJ_SFML)
+	$(RM) $(OBJ_NCURSES) 
+	$(RM) $(OBJ_SDL) 
+	$(RM) $(OBJ_SFML)
 
-fclean:
-	rm -f $(LIB_NCURSES) $(LIB_SDL) $(LIB_SFML)
+fclean:	clean
+	$(RM) $(LIB_DIR)$(LIB_NCURSES)
+	$(RM) $(LIB_DIR)$(LIB_SDL)
+	$(RM) $(LIB_DIR)$(LIB_SFML)
 
 re: fclean all
 

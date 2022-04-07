@@ -10,7 +10,7 @@
 
 #include <vector>
 #include <memory>
-#include "../objeccts/IObject.hpp"
+#include "../objects/IObject.hpp"
 #include <algorithm>
 #include <cmath>
 #include <iostream>

@@ -9,9 +9,9 @@
 #define SNAKE_HPP_
 
 #include "IGames.hpp"
-#include "../objeccts/IObject.hpp"
-#include "../objeccts/Object.hpp"
-#include "../objeccts/Text.hpp"
+#include "../objects/IObject.hpp"
+#include "../objects/Object.hpp"
+#include "../objects/Text.hpp"
 
 
 namespace Arcade {

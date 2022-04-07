@@ -19,9 +19,9 @@
 #include <SDL2/SDL_audio.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
-#include "../objeccts/Sound.hpp"
-#include "../objeccts/Object.hpp"
-#include "../objeccts/Text.hpp"
+#include "../objects/Sound.hpp"
+#include "../objects/Object.hpp"
+#include "../objects/Text.hpp"
 
 namespace Arcade {
 

@@ -9,9 +9,9 @@
 #define NCURSES_HPP_
 
 #include "IGraphic.hpp"
-#include "../objeccts/Sound.hpp"
-#include "../objeccts/Object.hpp"
-#include "../objeccts/Text.hpp"
+#include "../objects/Sound.hpp"
+#include "../objects/Object.hpp"
+#include "../objects/Text.hpp"
 
 namespace Arcade {
 

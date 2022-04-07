@@ -9,6 +9,7 @@
 
 static const int coef_w_obj = 13;
 static const int coef_h_obj = 16;
+
 Arcade::SDL::SDL()
 {
     SDL_Init(SDL_INIT_EVERYTHING);
