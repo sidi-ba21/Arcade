@@ -7,9 +7,8 @@
 
 #include "Ncurses.hpp"
 #include <cmath>
-#include <unistd.h>
 
-Arcade::Ncurses::Ncurses()
+void Arcade::Ncurses::createWindow()
 {
     initscr();
     keypad(stdscr, TRUE);
@@ -25,6 +24,10 @@ Arcade::Ncurses::Ncurses()
     init_pair(5, MAGENTA, 0);
     init_pair(6, CYAN, 0);
     init_pair(7, WHITE, 0);
+}
+
+Arcade::Ncurses::Ncurses()
+{
 }
 
 Arcade::Ncurses::~Ncurses()
@@ -56,7 +59,6 @@ void Arcade::Ncurses::clear()
 void Arcade::Ncurses::update()
 {
     wrefresh(stdscr);
-    usleep(60000);
 }
 
 Arcade::Button Arcade::Ncurses::getEvent()

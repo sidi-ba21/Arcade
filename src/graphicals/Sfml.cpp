@@ -13,7 +13,7 @@
 static const int coef_w_obj = 13;
 static const int coef_h_obj = 16;
 
-Arcade::Sfml::Sfml()
+void Arcade::Sfml::createWindow()
 {
     _window.create(sf::VideoMode(1920, 1080), "Arcade");
     _window.setFramerateLimit(60);
@@ -22,9 +22,14 @@ Arcade::Sfml::Sfml()
         throw GraphicsError("Failed to load a font");
 }
 
+Arcade::Sfml::Sfml()
+{
+}
+
 Arcade::Sfml::~Sfml()
 {
-    _window.close();
+    if (_window.isOpen())
+        _window.close();
 }
 
 void Arcade::Sfml::drawObject(Arcade::Object *obj)

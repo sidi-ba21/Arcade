@@ -28,11 +28,12 @@ namespace Arcade {
             virtual void clear() = 0;
             virtual void update() = 0;
             virtual Arcade::Button getEvent() = 0;
+            virtual void createWindow() = 0;
             const  std::string &getName() override {
                 return _name;
             }
         protected:
-            const std::string _name { "graphical" };
+            const std::string _name { "IGraphic" };
     };
     
     class AGraphic : public IGraphic {

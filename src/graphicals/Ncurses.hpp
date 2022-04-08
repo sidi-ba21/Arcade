@@ -42,6 +42,7 @@ namespace Arcade {
             void drawText(Arcade::Text *) override;
             void clear();
             void update();
+            void createWindow() override;
             Arcade::Button getEvent() override;
         protected:
         private:

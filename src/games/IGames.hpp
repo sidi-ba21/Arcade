@@ -32,7 +32,7 @@ class IGames : public IDisplayModule {
 //        virtual void reset() = 0;
        // virtual void highScore() = 0;
         protected:
-            const std::string _name { "game" };
+            const std::string _name { "IGames" };
 };
 
 }

@@ -10,7 +10,7 @@
 static const int coef_w_obj = 15;
 static const int coef_h_obj = 20;
 
-Arcade::Sdl::Sdl()
+void Arcade::Sdl::createWindow()
 {
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
@@ -21,11 +21,22 @@ Arcade::Sdl::Sdl()
     _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 }
 
+Arcade::Sdl::Sdl()
+{
+    _window = nullptr;
+    _renderer = nullptr;
+    _font = nullptr;
+}
+
 Arcade::Sdl::~Sdl()
 {
-    SDL_DestroyRenderer(_renderer);
-    SDL_DestroyWindow(_window);
-    TTF_CloseFont(_font);
+    
+    if (_renderer != nullptr)
+        SDL_DestroyRenderer(_renderer);
+    if (_window != nullptr)
+        SDL_DestroyWindow(_window);
+    if (_font != nullptr)
+        TTF_CloseFont(_font);
     IMG_Quit();
     TTF_Quit();
  //   Mix_CloseAudio();
@@ -77,7 +88,7 @@ void Arcade::Sdl::update()
 
 Arcade::Button Arcade::Sdl::getEvent()
 {
-    SDL_Event event;
+    SDL_Event event {};
 
     while (SDL_PollEvent(&event) != 0) {
         if (event.type == SDL_QUIT)
