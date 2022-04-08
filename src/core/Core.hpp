@@ -33,7 +33,10 @@ namespace Arcade
         protected:
         private:
             std::string _path;
+            std::string _name;
             std::vector<std::string> _lib_graphics;
+            std::size_t it_graphics;
+            std::size_t it_games;
             std::vector<std::string> _lib_games;
             DLLoader<Arcade::IGames> _game;
             DLLoader<Arcade::IGraphic> _display;

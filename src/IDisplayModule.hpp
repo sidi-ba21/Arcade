@@ -5,7 +5,6 @@
 ** displaymodule
 */
 
-#include <dlfcn.h>
 #include <iostream>
 
 #ifndef IDISPLAYMODULE_HPP_
