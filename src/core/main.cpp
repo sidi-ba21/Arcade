@@ -23,7 +23,7 @@ int main(int ac, char **av)
         std::string str = std::string(av[1]);
         Arcade::Core test(str);
     } catch (std::exception const &e) {
-        std::cout << e.what() << std::endl;
+        std::cout << std::endl << "ok:\t" << e.what() << std::endl;
         return 84;
     }
     return 0;

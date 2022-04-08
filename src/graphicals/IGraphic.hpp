@@ -17,18 +17,22 @@
 #include "../core/Error.hpp"
 #include <memory>
 #include <map>
+#include "../IDisplayModule.hpp"
 
 namespace Arcade {
 
-    class IGraphic {
+    class IGraphic : public IDisplayModule {
         public:
             virtual ~IGraphic() = default;
             virtual void draw(std::shared_ptr<Arcade::IObject> obj) = 0;
             virtual void clear() = 0;
             virtual void update() = 0;
             virtual Arcade::Button getEvent() = 0;
+            const  std::string &getName() override {
+                return _name;
+            }
         protected:
-        private:
+            const std::string _name { "graphical" };
     };
     
     class AGraphic : public IGraphic {

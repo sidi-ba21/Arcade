@@ -91,7 +91,7 @@ void Arcade::Pacman::movements()
     //auto it = _Ghosts.begin();
     float x = 0;
     float y = 0;
-
+/*
     if (_direction == Button::LEFT) {
         x = this->_pacman.getPos().first - 1;
         y = this->_pacman.getPos().second;
@@ -107,7 +107,7 @@ void Arcade::Pacman::movements()
     else if (_direction == Button::DOWN) {
         x = this->_pacman.getPos().first;
         y = this->_pacman.getPos().second + 1;
-    }
+    }*/
     isstart();
 }
 
@@ -128,8 +128,8 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Pacman::play(Arcade::Butto
     move(button);
     movements();
     _text.back()->setText(std::to_string(_score));
-    if (!check_ennemy(_pacman.getPos()))
-        printf("fantome touché\n");
+   /* if (!check_ennemy(_pacman.getPos()))
+        printf("fantome touché\n");*/
     return (allObj());
 }
 

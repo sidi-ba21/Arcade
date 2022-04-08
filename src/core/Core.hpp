@@ -9,6 +9,7 @@
 #include "Error.hpp"
 #include "../games/IGames.hpp"
 #include "../graphicals/IGraphic.hpp"
+#include "../IDisplayModule.hpp"
 #include <vector>
 
 #ifndef CORE_HPP_
@@ -32,9 +33,11 @@ namespace Arcade
         protected:
         private:
             std::string _path;
-            std::vector<std::string> _lib;
+            std::vector<std::string> _lib_graphics;
+            std::vector<std::string> _lib_games;
             DLLoader<Arcade::IGames> _game;
             DLLoader<Arcade::IGraphic> _display;
+            DLLoader<Arcade::IDisplayModule> _all_lib;
     };
 }
 

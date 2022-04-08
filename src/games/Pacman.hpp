@@ -38,7 +38,7 @@ namespace Arcade {
             std::vector<std::shared_ptr<Arcade::Object>> _obj;
             std::vector<std::shared_ptr<Arcade::Object>> _bigobj;
             std::vector<std::shared_ptr<Arcade::Object>> _Ghosts;
-            Arcade::Object _pacman;
+          //  std::shared_ptr::<Arcade::Object> _pacman;
             std::vector<std::shared_ptr<Arcade::Text>> _text;
             std::pair<std::size_t, std::size_t> map_size;
     };

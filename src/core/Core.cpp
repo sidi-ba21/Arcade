@@ -20,20 +20,31 @@
 void Arcade::Core::load_file()
 {
     namespace fs = std::experimental::filesystem;
+
     for (const auto & entry : fs::directory_iterator(fs::current_path().append("/lib"))) {
-        //std::cout << entry.path() << std::endl;
-        _lib.push_back(entry.path());
+        _all_lib.Dynamic_loader(entry.path());
+        if (_all_lib.getInstance()->getName().compare("graphical") == 0)
+            _lib_graphics.emplace_back(entry.path());
+        else if (_all_lib.getInstance()->getName().compare("game") == 0)
+            _lib_games.emplace_back(entry.path());
     }
 }
 
 Arcade::Core::Core(std::string &pathname) : _path(pathname)
 {
-    //std::string str = std::string("./arcade_sdl2.so");
+    std::string str = std::string("./lib/arcade_nibbler.so");
     load_file();
     std::cout << _path << std::endl;
-    std::cout << _lib[2] << std::endl;
+    std::cout << "Graphicals:" << std::endl;
+    for (auto &tmp : _lib_graphics)
+        std::cout << tmp << std::endl;
+    std::cout << "Games:" << std::endl;
+    for (auto &tmp : _lib_games)
+        std::cout << tmp << std::endl;
+   // std::cout << _lib_graphics[2] << std::endl;
     _display.Dynamic_loader(_path);
-    _game.Dynamic_loader(_lib[2]);
+   // std::cout << "success" << std::endl;
+    _game.Dynamic_loader(str);
     core_loop();
 }
 

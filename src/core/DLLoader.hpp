@@ -18,13 +18,14 @@ namespace Arcade {
     class DLLoader {
         public:
             DLLoader() = default;
-            DLLoader(std::string &filename) {
+            DLLoader(const std::string &filename) {
                 Dynamic_loader(filename);
             }
             ~DLLoader() {
                 Dynamic_close();
             }
-            void Dynamic_loader(std::string &filename) { 
+            void Dynamic_loader(const std::string &filename) { 
+                this->Dynamic_close();
                 _hdnl = dlopen(filename.c_str(), RTLD_LOCAL | RTLD_NOW);
                 if (!_hdnl)
                     throw DLLoaderError(dlerror());
@@ -32,7 +33,6 @@ namespace Arcade {
             }
             void load_sym() {
                 _sym = dlsym(_hdnl, "entryPoint");
-                //std::cout << "pass" << std::endl;
                 if (!_sym)
                     throw DLLoaderError(dlerror());
                 _instance = reinterpret_cast<T *(*)()>(_sym)();;
@@ -41,6 +41,8 @@ namespace Arcade {
                 return _instance;
             }
             void Dynamic_close() {
+                delete _instance;
+                _instance = nullptr;
                 if (_hdnl && dlclose(_hdnl) != 0)
                     throw DLLoaderError(dlerror());
             }
