@@ -24,6 +24,7 @@ namespace Arcade
             void load_file();
             void core_loop();
             void menu();
+            void switch_lib(Arcade::Button &input);
             void next_game();
             void prev_game();
             void next_display();

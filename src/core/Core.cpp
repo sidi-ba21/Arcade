@@ -63,34 +63,36 @@ Arcade::Core::Core(std::string &pathname) : _path(pathname)
 void Arcade::Core::core_loop()
 {
     _display.getInstance()->createWindow();
-    while (1) {
-        Arcade::Button input = _display.getInstance()->getEvent();
-        if (input == Arcade::Button::ESCAPE) {
-            _display.getInstance()->clear();
-            break;
-        }
-        else if (input == Arcade::Button::PREV_GAME)
-            prev_game();
-        else if (input == Arcade::Button::NEXT_GAME)
-            next_game();
-        else if (input == Arcade::Button::PREV_LIB)
-            prev_display();
-        else if (input == Arcade::Button::NEXT_LIB)
-            next_display();
-        else {
-            _display.getInstance()->clear();
-            auto buff = _game.getInstance()->play(input);
-            for (auto &tmp : buff)
-                _display.getInstance()->draw(tmp);
-            _display.getInstance()->update();
-        }
+    Arcade::Button input = _display.getInstance()->getEvent();
+
+    while (input != Arcade::Button::ESCAPE) {
+        switch_lib(input);
+        _display.getInstance()->clear();
+        auto buff = _game.getInstance()->play(input);
+        for (auto &tmp : buff)
+            _display.getInstance()->draw(tmp);
+        _display.getInstance()->update();
         usleep(60000);
+        input = _display.getInstance()->getEvent();
     }
+    _display.getInstance()->clear();
 }
 
 void Arcade::Core::menu()
 {
 
+}
+
+void Arcade::Core::switch_lib(Arcade::Button &input)
+{
+    if (input == Arcade::Button::PREV_GAME)
+        prev_game();
+    if (input == Arcade::Button::NEXT_GAME)
+        next_game();
+    if (input == Arcade::Button::PREV_LIB)
+        prev_display();
+    if (input == Arcade::Button::NEXT_LIB)
+        next_display();
 }
 
 void Arcade::Core::next_game()
