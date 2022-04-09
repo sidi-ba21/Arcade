@@ -5,6 +5,8 @@
 ** DLLoader
 */
 
+#pragma once
+
 #include <iostream>
 #include <dlfcn.h>
 #include "Error.hpp"

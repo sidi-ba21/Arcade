@@ -5,11 +5,14 @@
 ** Core
 */
 
+#pragma once
+
 #include "DLLoader.hpp"
 #include "Error.hpp"
 #include "../games/IGames.hpp"
 #include "../graphicals/IGraphic.hpp"
 #include "../IDisplayModule.hpp"
+#include "Menu.hpp"
 #include <vector>
 
 #ifndef CORE_HPP_
@@ -29,6 +32,9 @@ namespace Arcade
             void next_display();
             void prev_display();
             void restart_game();
+            void init_menu();
+            void draw_menu();
+            void menu_move(Arcade::Button event);
             void exit();
         protected:
         private:
@@ -41,6 +47,8 @@ namespace Arcade
             DLLoader<Arcade::IGames> _game;
             DLLoader<Arcade::IGraphic> _display;
             DLLoader<Arcade::IDisplayModule> _all_lib;
+            Menu _menu;
+            bool _is_menu;
     };
 }
 
