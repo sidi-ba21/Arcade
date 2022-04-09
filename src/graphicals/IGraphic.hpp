@@ -29,6 +29,7 @@ namespace Arcade {
             virtual void update() = 0;
             virtual Arcade::Button getEvent() = 0;
             virtual void createWindow() = 0;
+            virtual void drawBackground(std::string) = 0;
             const  std::string &getName() override {
                 return _name;
             }

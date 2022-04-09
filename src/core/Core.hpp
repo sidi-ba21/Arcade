@@ -23,17 +23,18 @@ namespace Arcade
     class Core {
         public:
             Core(std::string &pathname);
-            ~Core();
+            ~Core() = default;
             void load_file();
+            void display_lib();
             void core_loop();
-            void menu();
+            void switch_lib(Arcade::Button &input);
             void next_game();
             void prev_game();
             void next_display();
             void prev_display();
             void restart_game();
             void init_menu();
-            void draw_menu();
+            void draw_menu(std::string);
             void menu_move(Arcade::Button event);
             void exit();
         protected:
@@ -41,9 +42,9 @@ namespace Arcade
             std::string _path;
             std::string _name;
             std::vector<std::string> _lib_graphics;
-            std::size_t it_graphics;
-            std::size_t it_games;
             std::vector<std::string> _lib_games;
+            std::size_t it_graphics{0};
+            std::size_t it_games{0};
             DLLoader<Arcade::IGames> _game;
             DLLoader<Arcade::IGraphic> _display;
             DLLoader<Arcade::IDisplayModule> _all_lib;

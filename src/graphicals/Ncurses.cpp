@@ -7,6 +7,7 @@
 
 #include "Ncurses.hpp"
 #include <cmath>
+#include <unistd.h>
 
 void Arcade::Ncurses::createWindow()
 {
@@ -35,6 +36,11 @@ Arcade::Ncurses::~Ncurses()
     endwin();
 }
 
+void Arcade::Ncurses::drawBackground(std::string)
+{
+
+}
+
 void Arcade::Ncurses::drawObject(Arcade::Object *obj)
 {
     char tmp[2];
@@ -49,7 +55,7 @@ void Arcade::Ncurses::drawObject(Arcade::Object *obj)
 void Arcade::Ncurses::drawText(Arcade::Text *text)
 {
     attron(COLOR_PAIR(text->getColor()));
-    mvwprintw(stdscr, round(text->getPos().second), round(text->getPos().first), text->getText().c_str());
+    mvwprintw(stdscr, round(text->getPos().second) / 25, round(text->getPos().first) / 10, text->getText().c_str());
     attroff(COLOR_PAIR(text->getColor()));
 }
 void Arcade::Ncurses::clear()
@@ -59,6 +65,7 @@ void Arcade::Ncurses::clear()
 void Arcade::Ncurses::update()
 {
     wrefresh(stdscr);
+    usleep(60000);
 }
 
 Arcade::Button Arcade::Ncurses::getEvent()

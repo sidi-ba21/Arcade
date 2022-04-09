@@ -39,6 +39,7 @@ namespace Arcade {
 		{sf::Keyboard::Q, Button::LEFT},
 		{sf::Keyboard::S, Button::DOWN},
 		{sf::Keyboard::D, Button::RIGHT},
+        {sf::Keyboard::M, Button::MENU},
 		{sf::Keyboard::F2, Button::PREV_GAME},
 		{sf::Keyboard::F3, Button::NEXT_GAME},
 		{sf::Keyboard::F4, Button::PREV_LIB},
@@ -58,13 +59,13 @@ namespace Arcade {
             void update();
             void createWindow();
             Arcade::Button getEvent() override;
+            void drawBackground(std::string) override;
         protected:
         private:
             sf::RenderWindow _window{};
             sf::Font _font{};
             sf::Texture _texture{};
             sf::SoundBuffer _sound{};
-            sf::Event _event{};
     };
 
     extern "C" Sfml *entryPoint() {

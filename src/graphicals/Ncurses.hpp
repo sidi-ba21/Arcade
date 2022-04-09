@@ -18,12 +18,13 @@ namespace Arcade {
 
     std::map<int, Arcade::Button> Key_list = {
 		{27, Button::ESCAPE},
-		{10, Button::ENTER},
+		{KEY_ENTER, Button::ENTER},
 		{'r', Button::RESTART},
 		{'z', Button::UP},
 		{'q', Button::LEFT},
 		{'s', Button::DOWN},
 		{'d', Button::RIGHT},
+		{'m', Button::MENU},
 		{KEY_F(2), Button::PREV_GAME},
 		{KEY_F(3), Button::NEXT_GAME},
 		{KEY_F(4), Button::PREV_LIB},
@@ -44,6 +45,7 @@ namespace Arcade {
             void update();
             void createWindow() override;
             Arcade::Button getEvent() override;
+            void drawBackground(std::string) override;
         protected:
         private:
     };

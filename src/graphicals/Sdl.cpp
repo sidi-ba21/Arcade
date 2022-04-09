@@ -12,20 +12,19 @@ static const int coef_h_obj = 20;
 
 void Arcade::Sdl::createWindow()
 {
-    SDL_Init(SDL_INIT_EVERYTHING);
-    TTF_Init();
-    _font = TTF_OpenFont("assets/font.ttf", 40);
     if (!_font)
         throw GraphicsError("Failed to load font");
-    _window = SDL_CreateWindow( "Arcade", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1920, 1080, SDL_WINDOW_SHOWN );
+    _window = SDL_CreateWindow( "Arcade {SDL}", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1920, 1080, SDL_WINDOW_SHOWN );
     _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 }
 
 Arcade::Sdl::Sdl()
 {
+    SDL_Init(SDL_INIT_EVERYTHING);
+    TTF_Init();
     _window = nullptr;
     _renderer = nullptr;
-    _font = nullptr;
+    _font = TTF_OpenFont("assets/font.ttf", 25);
 }
 
 Arcade::Sdl::~Sdl()
@@ -35,12 +34,25 @@ Arcade::Sdl::~Sdl()
         SDL_DestroyRenderer(_renderer);
     if (_window != nullptr)
         SDL_DestroyWindow(_window);
-    if (_font != nullptr)
-        TTF_CloseFont(_font);
+    TTF_CloseFont(_font);
     IMG_Quit();
     TTF_Quit();
  //   Mix_CloseAudio();
     SDL_Quit();
+}
+
+void Arcade::Sdl::drawBackground(std::string path)
+{
+    SDL_Surface *surface = IMG_Load(path.c_str());
+    SDL_Texture *temp = SDL_CreateTextureFromSurface(_renderer, surface);
+    SDL_Rect rect {};
+
+    SDL_QueryTexture(temp, NULL, NULL, &rect.w, &rect.h);
+    rect.x = 0;
+    rect.y = 0;
+    SDL_RenderCopy(_renderer, temp, NULL, &rect);
+    SDL_DestroyTexture(temp);
+    SDL_FreeSurface(surface);
 }
 
 void Arcade::Sdl::drawObject(Arcade::Object *obj)
@@ -48,13 +60,14 @@ void Arcade::Sdl::drawObject(Arcade::Object *obj)
     SDL_Surface *surface = IMG_Load(obj->getPath().c_str());
     SDL_Texture *temp = SDL_CreateTextureFromSurface(_renderer, surface);
     SDL_Rect rect {};
-    int h, w;
+
     rect.w = 1 * coef_w_obj;
     rect.h = 1 * coef_h_obj;
-    rect.x = obj->getPos().first * coef_w_obj;
-    rect.y = obj->getPos().second * coef_h_obj;
+    rect.x = 600 + obj->getPos().first * coef_w_obj;
+    rect.y = 365 + obj->getPos().second * coef_h_obj;
     SDL_RenderCopy(_renderer, temp, NULL, &rect);
     SDL_DestroyTexture(temp);
+    SDL_FreeSurface(surface);
 }
 
 void Arcade::Sdl::drawText(Arcade::Text *text)

@@ -10,12 +10,12 @@
 #include <thread>
 #include <iostream>
 
-static const int coef_w_obj = 13;
-static const int coef_h_obj = 16;
+static const int coef_w_obj = 15;
+static const int coef_h_obj = 20;
 
 void Arcade::Sfml::createWindow()
 {
-    _window.create(sf::VideoMode(1920, 1080), "Arcade");
+    _window.create(sf::VideoMode(1920, 1080), "Arcade {SFML}");
     _window.setFramerateLimit(60);
     _window.setKeyRepeatEnabled(true);
     if (!_font.loadFromFile("assets/font.ttf"))
@@ -32,12 +32,21 @@ Arcade::Sfml::~Sfml()
         _window.close();
 }
 
+void Arcade::Sfml::drawBackground(std::string path)
+{
+    if(!_texture.loadFromFile(path.c_str()))
+        throw GraphicsError("Failed to load a texture");
+    sf::Sprite sprite(_texture);
+    sprite.setPosition(0, 0);
+    _window.draw(sprite);
+}
+
 void Arcade::Sfml::drawObject(Arcade::Object *obj)
 {
     if(!_texture.loadFromFile(obj->getPath().c_str()))
         throw GraphicsError("Failed to load a texture");
     sf::Sprite sprite(_texture);
-    sprite.setPosition(obj->getPos().first * coef_w_obj, obj->getPos().second * coef_h_obj);
+    sprite.setPosition(600 + obj->getPos().first * coef_w_obj, 365 + obj->getPos().second * coef_h_obj);
     sprite.scale(0.5f, 0.5f);
     _window.draw(sprite);
 }
@@ -48,7 +57,7 @@ void Arcade::Sfml::drawText(Arcade::Text *text)
 
     txt.setFont(_font);
     txt.setString(text->getText());
-    txt.setCharacterSize(40);
+    txt.setCharacterSize(25);
     txt.setPosition(text->getPos().first, text->getPos().second);
     txt.setFillColor(sfmlColor[text->getColor()]);
     _window.draw(txt);

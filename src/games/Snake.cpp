@@ -6,6 +6,7 @@
 */
 
 #include "Snake.hpp"
+#include <unistd.h>
 
 static const char snake_map[] = "assets/snake/map.txt";
 static const char snake_down[] = "assets/snake/head_down.png";
@@ -68,8 +69,8 @@ void Arcade::Snake::init_food()
 void Arcade::Snake::init_score()
 {
     _score = 0;
-    _text.emplace_back(std::make_shared<Arcade::Text>("SCORE", Arcade::Color::WHITE, 700.f, 150.f));
-    _text.emplace_back(std::make_shared<Arcade::Text>(std::to_string(_score), Arcade::Color::WHITE, 750.f, 280.f));
+    _text.emplace_back(std::make_shared<Arcade::Text>("SCORE", Arcade::Color::WHITE, 870.f, 200.f));
+    _text.emplace_back(std::make_shared<Arcade::Text>(std::to_string(_score), Arcade::Color::WHITE, 920.f, 250.f));
 }
 
 bool Arcade::Snake::food_check(std::pair<float, float> pos)

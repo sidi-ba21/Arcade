@@ -32,12 +32,13 @@ namespace Arcade {
     };
     std::map<SDL_Keycode, Arcade::Button> Key_list = {
 		{SDLK_ESCAPE, Button::ESCAPE},
-		{SDLK_KP_ENTER, Button::ENTER},
+		{SDLK_RETURN, Button::ENTER},
 		{SDLK_r, Button::RESTART},
 		{SDLK_z, Button::UP},
 		{SDLK_q, Button::LEFT},
 		{SDLK_s, Button::DOWN},
 		{SDLK_d, Button::RIGHT},
+		{SDLK_m, Button::MENU},
 		{SDLK_F2, Button::PREV_GAME},
 		{SDLK_F3, Button::NEXT_GAME},
 		{SDLK_F4, Button::PREV_LIB},
@@ -54,6 +55,7 @@ namespace Arcade {
             ~Sdl();
             void drawObject(Arcade::Object *) override;
             void drawText(Arcade::Text *) override;
+            void drawBackground(std::string) override;
             void clear();
             void update();
             void createWindow();
@@ -62,8 +64,6 @@ namespace Arcade {
         private:
             SDL_Window *_window;
             SDL_Renderer *_renderer;
-            SDL_Event _event;
-            SDL_Surface *_surface;
             TTF_Font *_font;
     };
 

@@ -15,7 +15,7 @@
 #include "../objects/Sound.hpp"
 #include "../objects/Sprite.hpp"
 #include "../objects/Text.hpp"
-#include <unistd.h>
+
 
 void Arcade::Core::load_file()
 {
@@ -24,7 +24,6 @@ void Arcade::Core::load_file()
     for (const auto & entry : fs::directory_iterator("./lib")) {
         if (entry.path().string().compare("./lib/.gitkeep") != 0) {
             _all_lib.Dynamic_loader(entry.path());
-            auto path = entry.path().string();
             if (_all_lib.getInstance()->getName().compare("IGraphic") == 0)
                 _lib_graphics.emplace_back(entry.path().string());
             else if (_all_lib.getInstance()->getName().compare("IGames") == 0)
@@ -39,19 +38,19 @@ void Arcade::Core::load_file()
 
 void Arcade::Core::init_menu()
 {
-    _menu.addObj(std::make_shared<Arcade::Text>("LIBRARIES :", Arcade::Color::WHITE, 300.f, 465.f));
+    _menu.addObj(std::make_shared<Arcade::Text>("LIBRARIES :", Arcade::Color::WHITE, 400.f, 400.f));
     for (int i = 0; i < _lib_graphics.size(); i++) {
         if (i == it_graphics)
-            _menu.addLib(std::make_shared<Arcade::Text>(_lib_graphics[i], Arcade::Color::RED, 250.f , 565.f + (float)(i * 50)));
+            _menu.addLib(std::make_shared<Arcade::Text>(_lib_graphics[i], Arcade::Color::RED, 350.f , 515.f + (float)(i * 50)));
         else
-            _menu.addLib(std::make_shared<Arcade::Text>(_lib_graphics[i], Arcade::Color::WHITE, 250.f , 565.f + (float)(i * 50)));
+            _menu.addLib(std::make_shared<Arcade::Text>(_lib_graphics[i], Arcade::Color::WHITE, 350.f , 515.f + (float)(i * 50)));
     }
     _menu.addObj(std::make_shared<Arcade::Text>("GAMES :", Arcade::Color::CYAN, 900.f, 400.f));
     for (int i = 0; i < _lib_games.size(); i++) {
         if (it_games == i)
-            _menu.addGame(std::make_shared<Arcade::Text>(_lib_games[i], Arcade::Color::RED, 850.f , 500.f + (float)(i * 50)));
+            _menu.addGame(std::make_shared<Arcade::Text>(_lib_games[i], Arcade::Color::RED, 850.f , 515.f + (float)(i * 50)));
         else
-            _menu.addGame(std::make_shared<Arcade::Text>(_lib_games[i], Arcade::Color::CYAN, 850.f , 500.f + (float)(i * 50)));
+            _menu.addGame(std::make_shared<Arcade::Text>(_lib_games[i], Arcade::Color::CYAN, 850.f , 515.f + (float)(i * 50)));
     }
 }
 
@@ -65,82 +64,95 @@ void Arcade::Core::menu_move(Arcade::Button event)
         prev_display();
     else if (event == Arcade::Button::NEXT_LIB)
         next_display();
-    else if (event == Arcade::Button::ENTER)
+    else if (event == Arcade::Button::ENTER) {
+        _game.Dynamic_loader(_lib_games[it_games]);
         _is_menu = false;
+    }
 }
 
-Arcade::Core::Core(std::string &pathname) : _path(pathname)
+void Arcade::Core::display_lib()
 {
-    std::string str = std::string("./lib/arcade_nibbler.so");
-    load_file();
-    it_graphics = 0;
-    it_games = 0;
-    _is_menu = true;
-    std::cout << _path << std::endl;
     std::cout << "Graphicals:" << std::endl;
     for (auto &tmp : _lib_graphics)
         std::cout << tmp.substr(tmp.find_last_of("/\\") + 1) << std::endl;
     std::cout << "Games:" << std::endl;
     for (auto &tmp : _lib_games)
         std::cout << tmp.substr(tmp.find_last_of("/\\") + 1) << std::endl;
-    _display.Dynamic_loader(_path);
-    _game.Dynamic_loader(str);
     for (auto &it : _lib_graphics) {
-        if (it.compare(_path) != 0)
-            it_graphics++;
+        if (it.substr(it.find_last_of("/\\") + 1).compare(_path.substr(_path.find_last_of("/\\") + 1)) == 0)
+            break;
+        it_graphics++;
     }
-//    std::cout << "Enter your name: " << std::flush;
-//    std::getline(std::cin, _name);
+    if (it_graphics == _lib_graphics.size())
+        throw GraphicsError("2nd argument is not a graphic library");
+}
+
+Arcade::Core::Core(std::string &pathname) : _path(pathname)
+{
+    load_file();
+    display_lib();
     init_menu();
+    _display.Dynamic_loader(_lib_graphics[it_graphics]);
+    std::cout << "Enter your name: " << std::flush;
+    std::getline(std::cin, _name);
+    _is_menu = true;
     core_loop();
 }
 
-void Arcade::Core::draw_menu()
+void Arcade::Core::draw_menu(std::string path)
 {
     _display.getInstance()->clear();
-    _display.getInstance()->drawBackground();
+    _display.getInstance()->drawBackground(path);
     auto temp = _menu.getMenu();
     for (auto &tmp : temp)
         _display.getInstance()->draw(tmp);
-    _display.getInstance()->update();
+    auto temp1 = _menu.getLib();
+    for (auto &tmp : temp1)
+        _display.getInstance()->draw(tmp);
+    if (_is_menu == true) {
+        auto temp2 = _menu.getGame();
+        for (auto &tmp : temp2)
+            _display.getInstance()->draw(tmp);
+    }
 }
 
 void Arcade::Core::core_loop()
 {
     _display.getInstance()->createWindow();
-    while (1) {
-        Arcade::Button input = _display.getInstance()->getEvent();
-        if (input == Arcade::Button::ESCAPE) {
-            _display.getInstance()->clear();
-            break;
-        }
+    Arcade::Button input = _display.getInstance()->getEvent();
+    while (input != Arcade::Button::ESCAPE) {
+        if (input == Arcade::Button::MENU)
+            _is_menu = true;
         else if (_is_menu == true) {
             menu_move(input);
-            draw_menu();
+            draw_menu("assets/menu.jpg");
+            _display.getInstance()->update();
         }
-        else if (input == Arcade::Button::PREV_GAME)
-            prev_game();
-        else if (input == Arcade::Button::NEXT_GAME)
-            next_game();
-        else if (input == Arcade::Button::PREV_LIB)
-            prev_display();
-        else if (input == Arcade::Button::NEXT_LIB)
-            next_display();
         else {
-            _display.getInstance()->clear();
-            _display.getInstance()->drawBackground();
+            switch_lib(input);
+            draw_menu("assets/bg.jpg");
             auto buff = _game.getInstance()->play(input);
             for (auto &tmp : buff)
                 _display.getInstance()->draw(tmp);
             _display.getInstance()->update();
         }
-//        usleep(60000);
+        input = _display.getInstance()->getEvent();
     }
+    _display.getInstance()->clear();
 }
 
-void Arcade::Core::menu()
+void Arcade::Core::switch_lib(Arcade::Button &input)
 {
-
+    if (input == Arcade::Button::PREV_GAME)
+        prev_game();
+    if (input == Arcade::Button::NEXT_GAME)
+        next_game();
+    if (input == Arcade::Button::PREV_LIB)
+        prev_display();
+    if (input == Arcade::Button::NEXT_LIB)
+        next_display();
+    if (input == Arcade::Button::RESTART)
+        _game.Dynamic_loader(_lib_games[it_games]);
 }
 
 void Arcade::Core::next_game()
@@ -189,9 +201,4 @@ void Arcade::Core::prev_display()
     _display.getInstance()->createWindow();
     _menu.getLib()[it_graphics]->setColor(Arcade::Color::RED);
     _menu.getLib()[(it_graphics + 1) % _lib_graphics.size()].get()->setColor(Arcade::Color::WHITE);
-}
-
-Arcade::Core::~Core()
-{
-
 }
