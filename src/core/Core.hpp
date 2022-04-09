@@ -22,6 +22,7 @@ namespace Arcade
             Core(std::string &pathname);
             ~Core();
             void load_file();
+            void display_lib();
             void core_loop();
             void menu();
             void switch_lib(Arcade::Button &input);
@@ -35,13 +36,13 @@ namespace Arcade
         private:
             std::string _path;
             std::string _name;
+            DLLoader<Arcade::IDisplayModule> _all_lib;
             std::vector<std::string> _lib_graphics;
-            std::size_t it_graphics;
-            std::size_t it_games;
             std::vector<std::string> _lib_games;
+            std::size_t it_graphics{0};
+            std::size_t it_games{0};
             DLLoader<Arcade::IGames> _game;
             DLLoader<Arcade::IGraphic> _display;
-            DLLoader<Arcade::IDisplayModule> _all_lib;
     };
 }
 

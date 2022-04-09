@@ -24,10 +24,9 @@ void Arcade::Core::load_file()
 
     for (const auto & entry : fs::directory_iterator("./lib")) {
         _all_lib.Dynamic_loader(entry.path());
-        auto path = entry.path().string();
         if (_all_lib.getInstance()->getName().compare("IGraphic") == 0)
             _lib_graphics.emplace_back(entry.path().string());
-        else if (_all_lib.getInstance()->getName().compare("IGames") == 0)
+        if (_all_lib.getInstance()->getName().compare("IGames") == 0)
             _lib_games.emplace_back(entry.path().string());
     }
     if (_lib_graphics.empty())
@@ -36,25 +35,29 @@ void Arcade::Core::load_file()
         throw GraphicsError("No game lib available");
 }
 
-Arcade::Core::Core(std::string &pathname) : _path(pathname)
+void Arcade::Core::display_lib()
 {
-    std::string str = std::string("./lib/arcade_nibbler.so");
-    load_file();
-    it_graphics = 0;
-    it_games = 0;
-    std::cout << _path << std::endl;
     std::cout << "Graphicals:" << std::endl;
     for (auto &tmp : _lib_graphics)
         std::cout << tmp.substr(tmp.find_last_of("/\\") + 1) << std::endl;
     std::cout << "Games:" << std::endl;
     for (auto &tmp : _lib_games)
         std::cout << tmp.substr(tmp.find_last_of("/\\") + 1) << std::endl;
-    _display.Dynamic_loader(_path);
-    _game.Dynamic_loader(str);
     for (auto &it : _lib_graphics) {
-        if (it.compare(_path) != 0)
-            it_graphics++;
+        if (it.substr(it.find_last_of("/\\") + 1).compare(_path.substr(_path.find_last_of("/\\") + 1)) == 0)
+            break;
+        it_graphics++;
     }
+    if (it_graphics == _lib_graphics.size())
+        throw GraphicsError("2nd argument is not a graphic library");
+}
+
+Arcade::Core::Core(std::string &pathname) : _path(pathname)
+{
+    load_file();
+    display_lib();
+    _display.Dynamic_loader(_lib_graphics[it_graphics]);
+    _game.Dynamic_loader(_lib_games[it_games]);
     std::cout << "Enter your name: " << std::flush;
     std::getline(std::cin, _name);
     core_loop();
@@ -64,7 +67,7 @@ void Arcade::Core::core_loop()
 {
     _display.getInstance()->createWindow();
     Arcade::Button input = _display.getInstance()->getEvent();
-
+    menu();
     while (input != Arcade::Button::ESCAPE) {
         switch_lib(input);
         _display.getInstance()->clear();
