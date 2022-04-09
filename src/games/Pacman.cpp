@@ -12,6 +12,8 @@ static const char pacman[] = "assets/pacman/pacman.png";
 static const char pacman_ghost[] = "assets/pacman/ghosts.png";
 static const char pacman_gum[] = "assets/pacman/gum.png";
 static const char terrain[] = "assets/pacman/terrain.png";
+static int pos = 0;
+static std::vector<std::string> map;
 
 Arcade::Pacman::Pacman()
 {
@@ -35,6 +37,7 @@ void Arcade::Pacman::init_map()
     if (!file.is_open())
         throw std::exception();
     while (std::getline(file, tmp)) {
+        map.push_back(tmp);
         if (y == 0)
             map_size.first = tmp.size();
         for (int x = 0; tmp[x] != '\0'; x++) {
@@ -46,8 +49,10 @@ void Arcade::Pacman::init_map()
                 _obj.emplace_back(std::make_shared<Arcade::Object>(pacman_gum, tmp[x], Arcade::Color::YELLOW,(float)x, (float)y));
             else if (tmp[x] == 'F')
                 _obj.emplace_back(std::make_shared<Arcade::Object>(pacman_ghost, tmp[x], Arcade::Color::WHITE,(float)x, (float)y));
-            else if (tmp[x] == 'P')
+            else if (tmp[x] == 'P') {
+                pos = _obj.size();
                 _obj.emplace_back(std::make_shared<Arcade::Object>(pacman, tmp[x], Arcade::Color::YELLOW,(float)x, (float)y));
+            }
 
         }
         y++;
@@ -73,14 +78,18 @@ void Arcade::Pacman::move(Arcade::Button dir)
 
 void Arcade::Pacman::move_ghosts(int num)
 {
-
+    std::pair<float, float> temp = {0, 0};
+    for (int i = 0; i < _Ghosts.size(); i++) {
+        temp = _Ghosts[i]->getPos();
+       // _Ghosts[i]->setPos(temp.first, temp.second - 1);
+    }
 }
 
 void Arcade::Pacman::isstart()
 {
     _times++;
     if (_times > 10) {
-        printf("move start\n");
+        //printf("move start\n");
         for (int i = 0; i < _Ghosts.size(); i++)
             move_ghosts(i);
     }
@@ -89,26 +98,24 @@ void Arcade::Pacman::isstart()
 void Arcade::Pacman::movements()
 {
     //auto it = _Ghosts.begin();
-    float x = 0;
-    float y = 0;
-/*
+
+    std::pair<float, float> const temp = _obj[pos]->getPos();
+
     if (_direction == Button::LEFT) {
-        x = this->_pacman.getPos().first - 1;
-        y = this->_pacman.getPos().second;
+            _obj[pos]->setPos(_obj[pos]->getPos().first - 1, _obj[pos]->getPos().second);
     }
     else if (_direction == Button::RIGHT) {
-        x = this->_pacman.getPos().first + 1;
-        y = this->_pacman.getPos().second;
+            _obj[pos]->setPos(_obj[pos]->getPos().first + 1, _obj[pos]->getPos().second);
     }
     else if (_direction == Button::UP) {
-        x = this->_pacman.getPos().first;
-        y = this->_pacman.getPos().second - 1;
+            _obj[pos]->setPos(_obj[pos]->getPos().first, _obj[pos]->getPos().second - 1);
     }
     else if (_direction == Button::DOWN) {
-        x = this->_pacman.getPos().first;
-        y = this->_pacman.getPos().second + 1;
-    }*/
-    isstart();
+            _obj[pos]->setPos(_obj[pos]->getPos().first, _obj[pos]->getPos().second + 1);
+    }
+    //if (map[_obj[pos]->getPos().first][_obj[pos]->getPos().second] == '#')
+    //    _obj[pos]->setPos(temp.first, temp.second);
+    //isstart();
 }
 
 bool Arcade::Pacman::check_ennemy(std::pair<float, float> pos)
@@ -128,7 +135,7 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Pacman::play(Arcade::Butto
     move(button);
     movements();
     _text.back()->setText(std::to_string(_score));
-   /* if (!check_ennemy(_pacman.getPos()))
+   /* if (!check_ennemy( _obj[pos]->getPos()))
         printf("fantome touché\n");*/
     return (allObj());
 }
