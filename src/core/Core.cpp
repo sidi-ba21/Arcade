@@ -38,20 +38,20 @@ void Arcade::Core::load_file()
 
 void Arcade::Core::init_menu()
 {
-    _menu.addObj(std::make_shared<Arcade::Text>("LIBRARIES :", Arcade::Color::WHITE, 400.f, 400.f));
     for (int i = 0; i < _lib_graphics.size(); i++) {
         if (i == it_graphics)
             _menu.addLib(std::make_shared<Arcade::Text>(_lib_graphics[i], Arcade::Color::RED, 350.f , 515.f + (float)(i * 50)));
         else
             _menu.addLib(std::make_shared<Arcade::Text>(_lib_graphics[i], Arcade::Color::WHITE, 350.f , 515.f + (float)(i * 50)));
     }
-    _menu.addObj(std::make_shared<Arcade::Text>("GAMES :", Arcade::Color::CYAN, 900.f, 400.f));
+    _menu.addLib(std::make_shared<Arcade::Text>("LIBRARIES :", Arcade::Color::WHITE, 400.f, 400.f));
     for (int i = 0; i < _lib_games.size(); i++) {
         if (it_games == i)
             _menu.addGame(std::make_shared<Arcade::Text>(_lib_games[i], Arcade::Color::RED, 850.f , 515.f + (float)(i * 50)));
         else
             _menu.addGame(std::make_shared<Arcade::Text>(_lib_games[i], Arcade::Color::CYAN, 850.f , 515.f + (float)(i * 50)));
     }
+    _menu.addGame(std::make_shared<Arcade::Text>("GAMES :", Arcade::Color::CYAN, 900.f, 400.f));
 }
 
 void Arcade::Core::menu_move(Arcade::Button event)
@@ -107,9 +107,9 @@ void Arcade::Core::draw_menu(std::string path)
     for (auto &tmp : temp)
         _display.getInstance()->draw(tmp);
     auto temp1 = _menu.getLib();
-    for (auto &tmp : temp1)
-        _display.getInstance()->draw(tmp);
     if (_is_menu == true) {
+        for (auto &tmp : temp1)
+            _display.getInstance()->draw(tmp);
         auto temp2 = _menu.getGame();
         for (auto &tmp : temp2)
             _display.getInstance()->draw(tmp);
