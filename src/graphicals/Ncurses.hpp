@@ -18,7 +18,7 @@ namespace Arcade {
 
     std::map<int, Arcade::Button> Key_list = {
 		{27, Button::ESCAPE},
-		{KEY_ENTER, Button::ENTER},
+		{10, Button::ENTER},
 		{'r', Button::RESTART},
 		{'z', Button::UP},
 		{'q', Button::LEFT},

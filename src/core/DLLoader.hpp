@@ -49,6 +49,11 @@ namespace Arcade {
                     throw DLLoaderError(dlerror());
             }
             void *gethandle() const { return _hdnl; }
+            DLLoader(DLLoader &&) = delete;
+            DLLoader& operator=(DLLoader &&) = delete;
+            DLLoader(const DLLoader&) = delete;
+            DLLoader& operator=(const DLLoader&) = delete;
+
         protected:
         private:
             void *_hdnl{nullptr};

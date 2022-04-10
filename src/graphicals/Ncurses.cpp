@@ -76,6 +76,8 @@ Arcade::Button Arcade::Ncurses::getEvent()
     while (event != ERR) {
         if (Key_list.find(event) != Key_list.end())
             button = Key_list[event];
+        if (event == 10)
+            break;
         event = getch();
     }
     return button;
