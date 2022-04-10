@@ -19,6 +19,7 @@ namespace Arcade {
 class Menu {
     public:
         Menu() {
+            _menu.emplace_back(std::make_shared<Arcade::Text>("HIGH SCORE", Arcade::Color::CYAN, 1550.f, 50.f));
             _menu.emplace_back(std::make_shared<Arcade::Text>("CONTROLS :", Arcade::Color::CYAN, 1320.f, 400.f));
             _menu.emplace_back(std::make_shared<Arcade::Text>("PRESS R TO RESTART THE GAME", Arcade::Color::CYAN, 1320.f, 465.f));
             _menu.emplace_back(std::make_shared<Arcade::Text>("PRESS M TO GO BACK TO THE MENU", Arcade::Color::CYAN, 1320.f, 515.f));

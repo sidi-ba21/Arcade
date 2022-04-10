@@ -66,6 +66,7 @@ void Arcade::Core::menu_move(Arcade::Button event)
         next_display();
     else if (event == Arcade::Button::ENTER) {
         _game.Dynamic_loader(_lib_games[it_games]);
+        setScore();
         _is_menu = false;
     }
 }
@@ -132,6 +133,7 @@ void Arcade::Core::core_loop()
             endGame();
             switch_lib(input);
             draw_menu("assets/bg.jpg");
+            highScore();
             auto buff = _game.getInstance()->play(input);
             for (auto &tmp : buff)
                 _display.getInstance()->draw(tmp);
@@ -164,6 +166,7 @@ void Arcade::Core::next_game()
     _game.Dynamic_loader(_lib_games[it_games]);
     _menu.getGame()[it_games].get()->setColor(Arcade::Color::RED);
     _menu.getGame()[(it_games - 1) % _lib_games.size()].get()->setColor(Arcade::Color::CYAN);
+    setScore();
 }
 
 void Arcade::Core::prev_game()
@@ -177,6 +180,7 @@ void Arcade::Core::prev_game()
     _game.Dynamic_loader(_lib_games[it_games]);
     _menu.getGame()[it_games].get()->setColor(Arcade::Color::RED);
     _menu.getGame()[(it_games + 1) % _lib_games.size()].get()->setColor(Arcade::Color::CYAN);
+    setScore();
 }
 
 void Arcade::Core::next_display()
@@ -204,9 +208,27 @@ void Arcade::Core::prev_display()
     _menu.getLib()[(it_graphics + 1) % _lib_graphics.size()].get()->setColor(Arcade::Color::WHITE);
 }
 
+void Arcade::Core::setScore()
+{
+    _score.setPath(_lib_games[it_games].substr(
+    _lib_games[it_games].find_last_of("/\\") + 1, 
+    _lib_games[it_games].find_last_of(".so")) + ".txt");
+    _score.loadScore();
+}
+
 void Arcade::Core::endGame()
 {
     if (_game.getInstance()->endGame() == true) {
+        _score.writeScore(_name, std::to_string(_game.getInstance()->getScore()));
         _game.Dynamic_loader(_lib_games[it_games]);
     }
+}
+
+void Arcade::Core::highScore()
+{
+    if (_score.getScore().compare("NOT AVAILABLE") == 0)
+        _highScore.get()->setText("NOT AVAILABLE");
+    else
+        _highScore.get()->setText(_score.getName() + " " + _score.getScore());
+    _display.getInstance()->draw(_highScore);
 }

@@ -13,6 +13,7 @@
 #include "../graphicals/IGraphic.hpp"
 #include "../IDisplayModule.hpp"
 #include "Menu.hpp"
+#include "Score.hpp"
 #include <vector>
 
 #ifndef CORE_HPP_
@@ -36,6 +37,8 @@ namespace Arcade
             void init_menu();
             void draw_menu(std::string);
             void menu_move(Arcade::Button event);
+            void setScore();
+            void highScore();
             void endGame();
             void exit();
         protected:
@@ -50,7 +53,10 @@ namespace Arcade
             DLLoader<Arcade::IGraphic> _display;
             DLLoader<Arcade::IDisplayModule> _all_lib;
             Menu _menu;
+            std::shared_ptr<Text>_highScore {
+                std::make_shared<Text>("NOT AVAILABLE", Arcade::Color::GREEN, 1600.f, 100.f)};
             bool _is_menu;
+            Score _score;
     };
 }
 
