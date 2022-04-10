@@ -53,6 +53,10 @@ namespace Arcade {
         public:
             Sdl();
             ~Sdl();
+            Sdl(const Sdl&) = delete;
+            Sdl& operator=(const Sdl&) = delete;
+            Sdl(Sdl &&) = delete;
+            Sdl& operator=(Sdl &&) = delete;
             void drawObject(Arcade::Object *) override;
             void drawText(Arcade::Text *) override;
             void drawBackground(std::string) override;
