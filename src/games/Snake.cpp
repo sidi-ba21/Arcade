@@ -45,7 +45,7 @@ void Arcade::Snake::init_map()
             map_size.first = tmp.size();
         for (int x = 0; tmp[x] != '\0'; x++) {
             if (tmp[x] == '#')
-                _obj.emplace_back(std::make_shared<Arcade::Object>(wall, tmp[x], Arcade::Color::CYAN, (float)x, (float)y));
+                _wall.emplace_back(std::make_shared<Arcade::Object>(wall, tmp[x], Arcade::Color::CYAN, (float)x, (float)y));
             else if (tmp[x] == '0') {
                 if (_snake.empty() == true)
                     _snake.emplace_back(std::make_shared<Arcade::Object>(snake_right, tmp[x], Arcade::Color::GREEN, (float)x, (float)y));
@@ -69,8 +69,8 @@ void Arcade::Snake::init_food()
 void Arcade::Snake::init_score()
 {
     _score = 0;
-    _text.emplace_back(std::make_shared<Arcade::Text>("SCORE", Arcade::Color::WHITE, 870.f, 200.f));
-    _text.emplace_back(std::make_shared<Arcade::Text>(std::to_string(_score), Arcade::Color::WHITE, 920.f, 250.f));
+    _text.emplace_back(std::make_shared<Arcade::Text>("SCORE", Arcade::Color::GREEN, 920.f, 250.f));
+    _text.emplace_back(std::make_shared<Arcade::Text>(std::to_string(_score), Arcade::Color::GREEN, 948.f, 300.f));
 }
 
 bool Arcade::Snake::food_check(std::pair<float, float> pos)
@@ -78,13 +78,17 @@ bool Arcade::Snake::food_check(std::pair<float, float> pos)
     int i = 0;
 	if (pos.first == 0 && pos.second == 0)
 		return false;
-	while (i <= _lengthSnake - 1)
-	{
+	while (i <= _lengthSnake - 1) {
 		if (_snake[i]->getPos().first == pos.first
 		    && _snake[i]->getPos().second == pos.second)
 			return (false);
 		i++;
 	}
+    for (auto tmp : _wall) {
+        auto pos_wall = tmp->getPos();
+        if (pos.first == pos_wall.first && pos.second == pos_wall.second)
+            return false;
+    }
 	return (true);
 }
 
@@ -95,8 +99,8 @@ void Arcade::Snake::gen_food()
     _times++;
     srand(time(NULL));
     while (food_check(pos) != true) {
-        pos.first = (float)(rand() % map_size.first);
-        pos.second = (float)(rand() % map_size.second);
+        pos.first = (float)(rand() % (map_size.first - 2) + 1);
+        pos.second = (float)(rand() % (map_size.second - 2) + 1);
     }
     _obj.back()->setPos(pos.first, pos.second);
     if (_times % 5 == 0) {
@@ -182,15 +186,28 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::allObj()
 {
     std::vector<std::shared_ptr<Arcade::IObject>> obj;
     for (auto &elem : _obj)
-        obj.push_back(elem);
+        obj.emplace_back(elem);
+    for (auto &elem : _wall)
+        obj.emplace_back(elem);
     for (auto &elem : _snake)
-        obj.push_back(elem);
-    for (auto &elem : _text)
-        obj.push_back(elem);
+        obj.emplace_back(elem);
+    for (auto &tmp : _text)
+        obj.emplace_back(tmp);
     return (obj);
 }
 
 bool Arcade::Snake::endGame()
 {
-    return true;
+    auto pos_snake = _snake.front()->getPos();
+    for (auto tmp : _wall) {
+        auto pos = tmp->getPos();
+        if (pos.first == pos_snake.first && pos.second == pos_snake.second)
+            return true;
+    }
+    for (int i = 1; i < _lengthSnake; i++) {
+        if (pos_snake.first == _snake[i].get()->getPos().first
+        && pos_snake.second == _snake[i].get()->getPos().second)
+            return true;
+    }
+    return false;
 }

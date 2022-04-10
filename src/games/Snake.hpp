@@ -28,9 +28,12 @@ namespace Arcade {
             void move(Arcade::Button);
             void movements();
             bool is_food(float x, float y);
+            int getScore() override {
+                return _score;
+            }
             std::vector<std::shared_ptr<Arcade::IObject>> play(Arcade::Button button) override;
             std::vector<std::shared_ptr<Arcade::IObject>> allObj();
-            bool endGame();
+            bool endGame() override;
         protected:
         private:
             int _score;
@@ -40,7 +43,9 @@ namespace Arcade {
             std::size_t _lengthSnake;
             int _direction;
             std::vector<std::shared_ptr<Arcade::Object>> _obj;
+            std::vector<std::shared_ptr<Arcade::Object>> _wall;
             std::vector<std::shared_ptr<Arcade::Object>> _snake;
+            std::vector<std::shared_ptr<Arcade::Object>> _food;
             std::vector<std::shared_ptr<Arcade::Text>> _text;
             std::pair<std::size_t, std::size_t> map_size;
     };

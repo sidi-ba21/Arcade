@@ -28,7 +28,8 @@ class IGames : public IDisplayModule {
         const  std::string &getName() override {
             return _name;
         }
-       // virtual int getScore() = 0;
+        virtual bool endGame() = 0;
+        virtual int getScore() = 0;
 //        virtual void reset() = 0;
        // virtual void highScore() = 0;
         protected:

@@ -24,9 +24,12 @@ namespace Arcade {
             void make_invincible();
             void isstart();
             void move_ghosts(int);
+            int getScore() override {
+                return _score;
+            }
             std::vector<std::shared_ptr<Arcade::IObject>> play(Arcade::Button button) override;
             std::vector<std::shared_ptr<Arcade::IObject>> allObj();
-            bool endGame();
+            bool endGame() override;
         protected:
         private:
             int _score;

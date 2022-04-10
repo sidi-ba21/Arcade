@@ -129,6 +129,7 @@ void Arcade::Core::core_loop()
             _display.getInstance()->update();
         }
         else {
+            endGame();
             switch_lib(input);
             draw_menu("assets/bg.jpg");
             auto buff = _game.getInstance()->play(input);
@@ -201,4 +202,11 @@ void Arcade::Core::prev_display()
     _display.getInstance()->createWindow();
     _menu.getLib()[it_graphics]->setColor(Arcade::Color::RED);
     _menu.getLib()[(it_graphics + 1) % _lib_graphics.size()].get()->setColor(Arcade::Color::WHITE);
+}
+
+void Arcade::Core::endGame()
+{
+    if (_game.getInstance()->endGame() == true) {
+        _game.Dynamic_loader(_lib_games[it_games]);
+    }
 }

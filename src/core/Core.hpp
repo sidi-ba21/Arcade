@@ -36,6 +36,7 @@ namespace Arcade
             void init_menu();
             void draw_menu(std::string);
             void menu_move(Arcade::Button event);
+            void endGame();
             void exit();
         protected:
         private:

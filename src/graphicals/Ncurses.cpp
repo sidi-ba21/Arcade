@@ -47,16 +47,16 @@ void Arcade::Ncurses::drawObject(Arcade::Object *obj)
 
     tmp[0] = static_cast<char>(obj->getSymbol());
     tmp[1] = '\0';
-    attron(COLOR_PAIR(obj->getColor()));
+    attron(COLOR_PAIR(obj->getColor()) | A_BOLD);
     mvwprintw(stdscr, round(obj->getPos().second), round(obj->getPos().first) * 2, tmp);
-    attroff(COLOR_PAIR(obj->getColor()));
+    attroff(COLOR_PAIR(obj->getColor()) | A_BOLD);
 }
 
 void Arcade::Ncurses::drawText(Arcade::Text *text)
 {
-    attron(COLOR_PAIR(text->getColor()));
+    attron(COLOR_PAIR(text->getColor()) | A_BOLD);
     mvwprintw(stdscr, round(text->getPos().second) / 25, round(text->getPos().first) / 10, text->getText().c_str());
-    attroff(COLOR_PAIR(text->getColor()));
+    attroff(COLOR_PAIR(text->getColor()) | A_BOLD);
 }
 void Arcade::Ncurses::clear()
 {
