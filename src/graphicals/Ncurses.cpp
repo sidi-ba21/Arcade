@@ -65,7 +65,7 @@ void Arcade::Ncurses::clear()
 void Arcade::Ncurses::update()
 {
     wrefresh(stdscr);
-    usleep(60000);
+    usleep(90000);
 }
 
 Arcade::Button Arcade::Ncurses::getEvent()

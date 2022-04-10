@@ -10,8 +10,8 @@
 #include <thread>
 #include <iostream>
 
-static const int coef_w_obj = 15;
-static const int coef_h_obj = 20;
+static const int coef_w_obj = 13;
+static const int coef_h_obj = 16;
 
 void Arcade::Sfml::createWindow()
 {
@@ -47,7 +47,7 @@ void Arcade::Sfml::drawObject(Arcade::Object *obj)
         throw GraphicsError("Failed to load a texture");
     sf::Sprite sprite(_texture);
     sprite.setPosition(600 + obj->getPos().first * coef_w_obj, 365 + obj->getPos().second * coef_h_obj);
-    sprite.scale(0.5f, 0.5f);
+    sprite.scale(0.55f, 0.55f);
     _window.draw(sprite);
 }
 
