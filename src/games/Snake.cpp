@@ -21,10 +21,6 @@ static const char sol[] = "assets/snake/SOL.png";
 
 Arcade::Snake::Snake()
 {
-    _lengthSnake = 2;
-    _direction = -1;
-    _inc = 1;
-    _times = 0;
     init_map();
     init_food();
     gen_food();
@@ -68,7 +64,6 @@ void Arcade::Snake::init_food()
 
 void Arcade::Snake::init_score()
 {
-    _score = 0;
     _text.emplace_back(std::make_shared<Arcade::Text>("SCORE", Arcade::Color::GREEN, 920.f, 250.f));
     _text.emplace_back(std::make_shared<Arcade::Text>(std::to_string(_score), Arcade::Color::GREEN, 948.f, 300.f));
 }
@@ -126,7 +121,13 @@ bool Arcade::Snake::is_food(float x, float y)
 }
 
 void Arcade::Snake::move(Arcade::Button dir)
-{
+{    
+    if (dir == Button::PAUSE) {
+        if  (!_ispause)
+            _ispause = true;
+        else
+            _ispause = false;
+    }
     if ((dir == Button::DOWN && _direction != Button::UP) ||
     (dir == Button::LEFT && _direction != Button::RIGHT) ||
     (dir == Button::RIGHT && _direction != Button::LEFT) ||
@@ -177,7 +178,8 @@ void Arcade::Snake::movements()
 std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::play(Arcade::Button button)
 {
     move(button);
-    movements();
+    if (!_ispause)
+        movements();
     _text.back()->setText(std::to_string(_score));
     return (allObj());
 }

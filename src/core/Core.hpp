@@ -55,7 +55,8 @@ namespace Arcade
             Menu _menu;
             std::shared_ptr<Text>_highScore {
                 std::make_shared<Text>("NOT AVAILABLE", Arcade::Color::GREEN, 1600.f, 100.f)};
-            bool _is_menu;
+            bool _is_menu{false};
+            bool _pause{false};
             Score _score;
     };
 }

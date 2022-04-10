@@ -26,7 +26,7 @@ class Sound : public IObject {
 
     protected:
     private:
-    std::string _path;
+        std::string _path;
 };
 
 }

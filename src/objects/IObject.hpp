@@ -43,6 +43,7 @@ enum Button {
         NEXT_GAME,
         PREV_LIB,
         NEXT_LIB,
+        PAUSE,
         NOTHING
     };
 }

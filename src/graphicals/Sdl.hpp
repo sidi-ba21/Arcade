@@ -47,6 +47,7 @@ namespace Arcade {
 		{SDLK_RIGHT, Button::RIGHT},
 		{SDLK_UP, Button::UP},
 		{SDLK_DOWN, Button::DOWN},
+        {SDLK_p, Button::PAUSE}
 	};
 
     class Sdl final : public AGraphic {
@@ -56,6 +57,7 @@ namespace Arcade {
             void drawObject(Arcade::Object *) override;
             void drawText(Arcade::Text *) override;
             void drawBackground(std::string) override;
+            void playSound(Arcade::Sound *sound) override;
             void clear();
             void update();
             void createWindow();
@@ -65,6 +67,7 @@ namespace Arcade {
             SDL_Window *_window;
             SDL_Renderer *_renderer;
             TTF_Font *_font;
+            Mix_Music *_sound;
     };
 
     extern "C" Sdl *entryPoint() {

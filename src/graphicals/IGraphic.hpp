@@ -45,12 +45,10 @@ namespace Arcade {
                 drawObject(dynamic_cast<Arcade::Object *>(obj.get()));
             else if (dynamic_cast<Arcade::Text*>(obj.get()) != nullptr)
                 drawText(dynamic_cast<Arcade::Text*>(obj.get()));
+            else if (dynamic_cast<Arcade::Sound *>(obj.get()) != nullptr)
+                playSound(dynamic_cast<Arcade::Sound*>(obj.get()));
         }
-    
-        void playSound(Arcade::Sound *) {
-        
-        }
-    
+        virtual void playSound(Arcade::Sound *) = 0;
         virtual void drawObject(Arcade::Object *) = 0;
         virtual void drawText(Arcade::Text *) = 0;
     };

@@ -37,7 +37,7 @@ Arcade::Sdl::~Sdl()
     TTF_CloseFont(_font);
     IMG_Quit();
     TTF_Quit();
- //   Mix_CloseAudio();
+    //Mix_CloseAudio();
     SDL_Quit();
 }
 
@@ -89,6 +89,14 @@ void Arcade::Sdl::drawText(Arcade::Text *text)
     SDL_FreeSurface(temp);
 }
 
+void Arcade::Sdl::playSound(Arcade::Sound *sound)
+{
+    _sound = Mix_LoadMUS(sound->getSound().c_str());
+    if (!_sound)
+        throw GraphicsError("Error sound");
+    Mix_PlayMusic(_sound, 1);
+}
+
 void Arcade::Sdl::clear()
 {
     SDL_RenderClear(_renderer);
@@ -101,7 +109,7 @@ void Arcade::Sdl::update()
 
 Arcade::Button Arcade::Sdl::getEvent()
 {
-    SDL_Event event {};
+    SDL_Event event{};
 
     while (SDL_PollEvent(&event) != 0) {
         if (event.type == SDL_QUIT)

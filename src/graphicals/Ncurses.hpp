@@ -32,7 +32,8 @@ namespace Arcade {
 		{0404, Button::LEFT},
 		{0405, Button::RIGHT},
 		{0403, Button::UP},
-		{0402, Button::DOWN}
+		{0402, Button::DOWN},
+        {'p', Button::PAUSE}
     };
 
     class Ncurses final : public AGraphic {
@@ -46,6 +47,7 @@ namespace Arcade {
             void createWindow() override;
             Arcade::Button getEvent() override;
             void drawBackground(std::string) override;
+            void playSound(Arcade::Sound *) override {};
         protected:
         private:
     };

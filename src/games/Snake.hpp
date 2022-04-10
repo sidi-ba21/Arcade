@@ -36,12 +36,13 @@ namespace Arcade {
             bool endGame() override;
         protected:
         private:
-            int _score;
-            int _inc;
-            int _times;
+            int _score{0};
+            int _inc{1};
+            int _times{0};
             bool end_game;
-            std::size_t _lengthSnake;
-            int _direction;
+            std::size_t _lengthSnake{2};
+            int _direction{-1};
+            bool _ispause{false};
             std::vector<std::shared_ptr<Arcade::Object>> _obj;
             std::vector<std::shared_ptr<Arcade::Object>> _wall;
             std::vector<std::shared_ptr<Arcade::Object>> _snake;

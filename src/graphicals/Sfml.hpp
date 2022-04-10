@@ -47,7 +47,8 @@ namespace Arcade {
 		{sf::Keyboard::Left, Button::LEFT},
 		{sf::Keyboard::Right, Button::RIGHT},
 		{sf::Keyboard::Up, Button::UP},
-		{sf::Keyboard::Down, Button::DOWN}
+		{sf::Keyboard::Down, Button::DOWN},
+        {sf::Keyboard::P, Button::PAUSE}
 	};
     class Sfml final : public AGraphic {
         public:
@@ -60,12 +61,14 @@ namespace Arcade {
             void createWindow();
             Arcade::Button getEvent() override;
             void drawBackground(std::string) override;
+            void playSound(Arcade::Sound *sound) override;
         protected:
         private:
             sf::RenderWindow _window{};
             sf::Font _font{};
             sf::Texture _texture{};
-            sf::SoundBuffer _sound{};
+            sf::SoundBuffer _soundbuff{};
+            sf::Sound _sound{};
     };
 
     extern "C" Sfml *entryPoint() {

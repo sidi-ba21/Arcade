@@ -69,11 +69,11 @@ void Arcade::Pacman::init_score()
 
 void Arcade::Pacman::move(Arcade::Button dir)
 {
-    if ((dir == Button::DOWN && _direction != Button::UP) ||
-    (dir == Button::LEFT && _direction != Button::RIGHT) ||
-    (dir == Button::RIGHT && _direction != Button::LEFT) ||
-    (dir == Button::UP && _direction != Button::DOWN))
-        _direction = dir;
+    //if ((dir == Button::DOWN && _direction != Button::UP) ||
+    //(dir == Button::LEFT && _direction != Button::RIGHT) ||
+    //(dir == Button::RIGHT && _direction != Button::LEFT) ||
+    //(dir == Button::UP && _direction != Button::DOWN))
+    _direction = dir;
 }
 
 void Arcade::Pacman::move_ghosts(int num)
@@ -102,13 +102,13 @@ void Arcade::Pacman::movements()
     std::pair<float, float> const temp = _obj[pos]->getPos();
 
     if (_direction == Button::LEFT) {
-            _obj[pos]->setPos(_obj[pos]->getPos().first - 1, _obj[pos]->getPos().second);
+        _obj[pos]->setPos(_obj[pos]->getPos().first - 1, _obj[pos]->getPos().second);
     }
     else if (_direction == Button::RIGHT) {
-            _obj[pos]->setPos(_obj[pos]->getPos().first + 1, _obj[pos]->getPos().second);
+        _obj[pos]->setPos(_obj[pos]->getPos().first + 1, _obj[pos]->getPos().second);
     }
     else if (_direction == Button::UP) {
-            _obj[pos]->setPos(_obj[pos]->getPos().first, _obj[pos]->getPos().second - 1);
+        _obj[pos]->setPos(_obj[pos]->getPos().first, _obj[pos]->getPos().second - 1);
     }
     else if (_direction == Button::DOWN) {
             _obj[pos]->setPos(_obj[pos]->getPos().first, _obj[pos]->getPos().second + 1);

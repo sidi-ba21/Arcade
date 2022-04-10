@@ -129,6 +129,9 @@ void Arcade::Core::core_loop()
             draw_menu("assets/menu.jpg");
             _display.getInstance()->update();
         }
+        //if (input == Arcade::Button::PAUSE)
+        //    _pause = true;
+        //if (_pause == true)
         else {
             endGame();
             switch_lib(input);

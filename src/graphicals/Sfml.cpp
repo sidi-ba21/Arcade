@@ -92,25 +92,10 @@ Arcade::Button Arcade::Sfml::getEvent()
     }
     return (Arcade::Button::NOTHING);
 }
-/*
-int main(int ac, char **av)
+
+void Arcade::Sfml::playSound(Arcade::Sound *sound)
 {
-    std::string tmp;
-    Arcade::Sfml test;
-    Arcade::Snake snake;
-    while (1) {
-        auto input = test.getEvent();
-        if (input == Arcade::Button::ESCAPE) {
-            test.clear();
-            break;
-        }
-        test.clear();
-        auto buff = snake.play(input);
-        for (auto &tmp : buff)
-            test.draw(tmp);
-        test.update();
-        usleep(60000);
-    }
-    return (0);
+    if (!_soundbuff.loadFromFile(sound->getSound()))
+        throw GraphicsError("error sound");
+    _sound.play();
 }
-*/
