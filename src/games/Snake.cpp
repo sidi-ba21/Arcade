@@ -44,7 +44,7 @@ void Arcade::Snake::init_map()
                 _wall.emplace_back(std::make_shared<Arcade::Object>(wall, tmp[x], Arcade::Color::CYAN, (float)x, (float)y));
             else if (tmp[x] == '0') {
                 if (_snake.empty() == true)
-                    _snake.emplace_back(std::make_shared<Arcade::Object>(snake_right, tmp[x], Arcade::Color::GREEN, (float)x, (float)y));
+                    _snake.emplace_back(std::make_shared<Arcade::Object>(snake_right, '>', Arcade::Color::GREEN, (float)x, (float)y));
                 else
                     _snake.emplace_back(std::make_shared<Arcade::Object>(snake_body, tmp[x], Arcade::Color::GREEN, (float)x, (float)y));
                 _obj.emplace_back(std::make_shared<Arcade::Object>(sol, ' ', Arcade::Color::GREEN, (float)x, (float)y));
@@ -145,7 +145,7 @@ void Arcade::Snake::movements()
         x = it->get()->getPos().first - 1;
         y = it->get()->getPos().second;
         _snake.front()->setPath(snake_body);
-        _snake.insert(it, std::make_shared<Arcade::Object>(snake_left, '0', Arcade::Color::GREEN, (float)x, (float)y));
+        _snake.insert(it, std::make_shared<Arcade::Object>(snake_left, '<', Arcade::Color::GREEN, (float)x, (float)y));
         if (!is_food(x, y))
             _snake.pop_back();
     }
@@ -153,7 +153,7 @@ void Arcade::Snake::movements()
         x = it->get()->getPos().first + 1;
         y = it->get()->getPos().second;
         _snake.front()->setPath(snake_body);
-        _snake.insert(it, std::make_shared<Arcade::Object>(snake_right, '0', Arcade::Color::GREEN, (float)x, (float)y));
+        _snake.insert(it, std::make_shared<Arcade::Object>(snake_right, '>', Arcade::Color::GREEN, (float)x, (float)y));
         if (!is_food(x, y))
             _snake.pop_back();
     }
@@ -161,7 +161,7 @@ void Arcade::Snake::movements()
         x = it->get()->getPos().first;
         y = it->get()->getPos().second - 1;
         _snake.front()->setPath(snake_body);
-        _snake.insert(it, std::make_shared<Arcade::Object>(snake_up, '0', Arcade::Color::GREEN, (float)x, (float)y));
+        _snake.insert(it, std::make_shared<Arcade::Object>(snake_up, 'A', Arcade::Color::GREEN, (float)x, (float)y));
         if (!is_food(x, y))
             _snake.pop_back();
     }
@@ -169,7 +169,7 @@ void Arcade::Snake::movements()
         x = it->get()->getPos().first;
         y = it->get()->getPos().second + 1;
         _snake.front()->setPath(snake_body);
-        _snake.insert(it, std::make_shared<Arcade::Object>(snake_down, '0', Arcade::Color::GREEN, (float)x, (float)y));
+        _snake.insert(it, std::make_shared<Arcade::Object>(snake_down, 'V', Arcade::Color::GREEN, (float)x, (float)y));
         if (!is_food(x, y))
             _snake.pop_back();
     }

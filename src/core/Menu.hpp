@@ -29,6 +29,7 @@ class Menu {
             _menu.emplace_back(std::make_shared<Arcade::Text>("PRESS F3 TO SWITCH TO THE NEXT GAME", Arcade::Color::CYAN, 1320.f, 715.f));
             _menu.emplace_back(std::make_shared<Arcade::Text>("PRESS F4 TO SWITCH TO THE PREVIOUS LIBRARY", Arcade::Color::CYAN, 1320.f, 765.f));
             _menu.emplace_back(std::make_shared<Arcade::Text>("PRESS F5 TO SWITCH TO THE NEXT LIBRARY", Arcade::Color::CYAN, 1320.f, 815.f));
+            _menu.emplace_back(std::make_shared<Arcade::Text>("PRESS P TO PAUSE THE GAME", Arcade::Color::CYAN, 1320.f, 865.f));
         };
         ~Menu() = default;
         void addObj(std::shared_ptr<Arcade::IObject> text) {

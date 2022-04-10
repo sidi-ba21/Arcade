@@ -91,10 +91,10 @@ void Arcade::Sdl::drawText(Arcade::Text *text)
 
 void Arcade::Sdl::playSound(Arcade::Sound *sound)
 {
-    _sound = Mix_LoadMUS(sound->getSound().c_str());
-    if (!_sound)
-        throw GraphicsError("Error sound");
-    Mix_PlayMusic(_sound, 1);
+    //_sound = Mix_LoadMUS(sound->getSound().c_str());
+    //if (!_sound)
+    //    throw GraphicsError("Error sound");
+    //Mix_PlayMusic(_sound, 1);
 }
 
 void Arcade::Sdl::clear()
@@ -121,24 +121,3 @@ Arcade::Button Arcade::Sdl::getEvent()
     }
     return (Arcade::Button::NOTHING);
 }
-/*
-int main(int ac, char **av)
-{
-    std::string tmp;
-    Arcade::Sdl test;
-    Arcade::Snake snake;
-    while (1) {
-        auto input = test.getEvent();
-        if (input == Arcade::Button::ESCAPE) {
-            test.clear();
-            break;
-        }
-        test.clear();
-        auto buff = snake.play(input);
-        for (auto &tmp : buff)
-            test.draw(tmp);
-        test.update();
-    }
-    return (0);
-}
-*/
