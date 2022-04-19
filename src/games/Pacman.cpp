@@ -241,7 +241,7 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Pacman::allObj()
 
 bool Arcade::Pacman::endGame()
 {
-    if (check_ennemy() || _nb_food < 0)
+    if (check_ennemy() || _nb_food <= 0)
         return true;
     return false;
 }
